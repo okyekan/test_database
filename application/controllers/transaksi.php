@@ -9,7 +9,6 @@ class transaksi extends CI_Controller
         $this->load->model("transaksi_model");
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
-        $this->load->library("fpdf_gen");
         $this->load->helper('function_helper');
     }
     public function index()
@@ -76,11 +75,11 @@ class transaksi extends CI_Controller
             $this->log_book_model->save($dataArray);
         }
     }
-    public function Test()
-    {
-        $id = NoTransaksiGen($this->transaksi_model->OldID());
-        var_dump($id) ;
-    }
+    // public function Test()
+    // {
+    //     $id = NoTransaksiGen($this->transaksi_model->OldID());
+    //     var_dump($id) ;
+    // }
     public function Edit_Data()
     {
         $id = $this->input->post('id_transaksi');

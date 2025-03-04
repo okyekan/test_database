@@ -6,9 +6,6 @@
     <button class="span2 btn btn-success" type="button" style="border: 1px solid black"
         onclick="CetakData()">Cetak Data
     </button><br><br>
-    <button class="span2 btn btn-success" type="button" style="border: 1px solid black"
-        onclick="AjaxSend('Test','data')">TEST
-    </button><br><br>
     <table>
         <tr style="background-color:rgba(62, 49, 159, 0.36)">
             <th>No. Transaksi</th>
