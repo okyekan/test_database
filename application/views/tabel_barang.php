@@ -43,15 +43,7 @@
       </tr>
     <?php endforeach; ?>
   </table>
-  <div class="row-fluid">
-    <div class="span9"></div>
-    <div class="span3 btn-group">
-      <button class="btn">
-        < Prev</button>
-          <button class="btn">1</button>
-          <button class="btn">Next ></button>
-    </div>
-  </div><br><br>
+  <p id="pagination"></p>
   <script type="text/javascript">
     function HapusData(x, y) {
       if (confirm("Apakah anda yakin untuk menghapus data " + y + "?")) {

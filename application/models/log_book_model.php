@@ -7,9 +7,13 @@ class log_book_model extends CI_Model
     {
         return $this->db->get_where('log', ["waktu" => $id])->row();
     }
-    public function TampilData()
+    public function CountData()
     {
-        return $this->db->get('log')->result();
+        return $this->db->count_all('log');
+    }
+    public function TampilData($limit = 5, $offset = 0)
+    {
+        return $this->db->limit($limit, $offset)->get('log')->result();
     }
     public function delete($id)
     {

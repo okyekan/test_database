@@ -26,11 +26,17 @@
     if (link == base) {
         link = base + "/home"
     }
+    var data = {
+        offset: '<?php if (isset($offset)) echo $offset; ?>'
+    }
+    console.log(data['offset'])
     $.ajax({
-        url: link + "/ViewPage",
+        url: (link + "/ViewPage").replaceAll('index/', ''),
         type: 'POST',
+        data: data,
         success: function(xdata) {
             $('#page_view').html(xdata);
+            $('#pagination').html('<?php if (isset($offset)) echo $this->pagination->create_links(); ?>');
         }
     })
 

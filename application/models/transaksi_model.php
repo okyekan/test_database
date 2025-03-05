@@ -7,9 +7,13 @@ class transaksi_model extends CI_Model
     {
         return $this->db->get_where('transaksi', ["id_transaksi" => $id])->row();
     }
-    public function TampilData()
+    public function CountData()
     {
-        return $this->db->get('transaksi')->result();
+        return $this->db->count_all('transaksi');
+    }
+    public function TampilData($limit = 5, $offset = 0)
+    {
+        return $this->db->limit($limit, $offset)->get('transaksi')->result();
     }
     public function GantiData($data, $id)
     {

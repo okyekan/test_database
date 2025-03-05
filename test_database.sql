@@ -11,7 +11,7 @@
  Target Server Version : 100119 (10.1.19-MariaDB)
  File Encoding         : 65001
 
- Date: 04/03/2025 15:52:45
+ Date: 05/03/2025 13:25:41
 */
 
 SET NAMES utf8mb4;
@@ -33,8 +33,11 @@ CREATE TABLE `barang`  (
 -- Records of barang
 -- ----------------------------
 INSERT INTO `barang` VALUES ('20250303134039', 'tepung', 4000, 30);
-INSERT INTO `barang` VALUES ('20250303160123', 'minyak', 12000, 40);
+INSERT INTO `barang` VALUES ('20250303160123', 'minyak', 12000, 45);
 INSERT INTO `barang` VALUES ('20250304151416', 'coklat', 12000, 45);
+INSERT INTO `barang` VALUES ('20250305123749', 'sambal', 10000, 43);
+INSERT INTO `barang` VALUES ('20250305124014', 'baju', 55000, 18);
+INSERT INTO `barang` VALUES ('20250305124040', 'susu', 20000, 25);
 
 -- ----------------------------
 -- Table structure for log
@@ -67,20 +70,12 @@ INSERT INTO `log` VALUES ('2025-03-03 16:00:48', 'Default', 'Create', 'Orang', '
 INSERT INTO `log` VALUES ('2025-03-03 16:01:06', 'Default', 'Delete', 'Orang', '20250303160048;dddaaa;18;Laki-laki;dadadavvsv v    daw', '_');
 INSERT INTO `log` VALUES ('2025-03-03 16:01:23', 'Default', 'Create', 'Barang', '_', '20250303160123;minyak;12000;46');
 INSERT INTO `log` VALUES ('2025-03-03 16:01:40', 'Default', 'Update', 'Barang', '20250303160123;minyak;12000;46', '20250303160123;minyak;12000;40');
-INSERT INTO `log` VALUES ('2025-03-04 07:50:04', 'Default', 'Create', 'Transaksi', '_', '20250304075004;;Jajan;9000000');
-INSERT INTO `log` VALUES ('2025-03-04 07:54:47', 'Default', 'Create', 'Transaksi', '_', '20250304075447;;OKY EKA NOORRAFIF;500000');
-INSERT INTO `log` VALUES ('2025-03-04 07:55:12', 'Default', 'Create', 'Transaksi', '_', '20250304075512;;Poni;9000000');
-INSERT INTO `log` VALUES ('2025-03-04 08:18:08', 'Default', 'Create', 'Transaksi', '_', '20250304081808;;dana;1000000000000');
 INSERT INTO `log` VALUES ('2025-03-04 09:51:06', 'Default', 'Update', 'Transaksi', '20250304075512;2025-03-04 09:46:59;Ponidi;9000000', '20250304075512;2025-03-04 09:46:59;Ponian;9000000');
 INSERT INTO `log` VALUES ('2025-03-04 09:51:19', 'Default', 'Update', 'Transaksi', '20250304081808;2025-03-04 08:18:08;dana;1000000000000', '20250304081808;2025-03-04 08:18:08;dana;1000000000');
 INSERT INTO `log` VALUES ('2025-03-04 12:26:45', 'Default', 'Delete', 'Transaksi', '20250304075004;2025-03-04 07:50:04;Jajan;9000000', '_');
 INSERT INTO `log` VALUES ('2025-03-04 12:26:47', 'Default', 'Delete', 'Transaksi', '20250304075447;2025-03-04 07:54:47;OKY EKA NOORRAFIF;500000', '_');
 INSERT INTO `log` VALUES ('2025-03-04 12:26:48', 'Default', 'Delete', 'Transaksi', '20250304075512;2025-03-04 09:46:59;Ponian;9000000', '_');
 INSERT INTO `log` VALUES ('2025-03-04 12:26:50', 'Default', 'Delete', 'Transaksi', '20250304081808;2025-03-04 08:18:08;dana;1000000000', '_');
-INSERT INTO `log` VALUES ('2025-03-04 12:37:13', 'Default', 'Create', 'Transaksi', '_', '202503040001;;kina;300000');
-INSERT INTO `log` VALUES ('2025-03-04 12:39:43', 'Default', 'Create', 'Transaksi', '_', '202503040002;;yuda;9000000');
-INSERT INTO `log` VALUES ('2025-03-04 12:43:24', 'Default', 'Create', 'Transaksi', '_', '202503050001;;diona;1700000');
-INSERT INTO `log` VALUES ('2025-03-04 15:12:50', 'Default', 'Create', 'Transaksi', '_', '202503040003;;wahyu;800000');
 INSERT INTO `log` VALUES ('2025-03-04 15:13:01', 'Default', 'Update', 'Transaksi', '202503040003;2025-03-04 15:12:50;wahyu;800000', '202503040003;2025-03-04 15:12:50;wahyu;8000000');
 INSERT INTO `log` VALUES ('2025-03-04 15:13:52', 'Default', 'Delete', 'Barang', '1;sabun;5000;30', '_');
 INSERT INTO `log` VALUES ('2025-03-04 15:13:55', 'Default', 'Delete', 'Barang', '10;keju;12000;30', '_');
@@ -91,6 +86,11 @@ INSERT INTO `log` VALUES ('2025-03-04 15:14:04', 'Default', 'Delete', 'Barang', 
 INSERT INTO `log` VALUES ('2025-03-04 15:14:06', 'Default', 'Delete', 'Barang', '9;permen;10000;60', '_');
 INSERT INTO `log` VALUES ('2025-03-04 15:14:16', 'Default', 'Create', 'Barang', '_', '20250304151416;coklat;12000;45');
 INSERT INTO `log` VALUES ('2025-03-04 15:35:12', 'Default', 'Create', 'Orang', '_', '20250304153512;d;33;Laki-laki;efdghgmjhgfdfgf');
+INSERT INTO `log` VALUES ('2025-03-05 07:38:32', 'Default', 'Update', 'Barang', '20250303160123;minyak;12000;40', '20250303160123;minyak;12000;45');
+INSERT INTO `log` VALUES ('2025-03-05 12:37:49', 'Default', 'Create', 'Barang', '_', '20250305123749;sambal;10000;43');
+INSERT INTO `log` VALUES ('2025-03-05 12:40:14', 'Default', 'Create', 'Barang', '_', '20250305124014;baju;55000;18');
+INSERT INTO `log` VALUES ('2025-03-05 12:40:40', 'Default', 'Create', 'Barang', '_', '20250305124040;susu;20000;25');
+INSERT INTO `log` VALUES ('2025-03-05 13:23:29', 'Default', 'Create', 'Transaksi', '_', '202503050004;2025-03-05 13:23:29;damar;7200000');
 
 -- ----------------------------
 -- Table structure for orang
@@ -144,5 +144,8 @@ INSERT INTO `transaksi` VALUES ('202503040001', '2025-03-04 12:37:13', 'kina', 3
 INSERT INTO `transaksi` VALUES ('202503040002', '2025-03-04 12:39:43', 'yuda', 9000000);
 INSERT INTO `transaksi` VALUES ('202503040003', '2025-03-04 15:12:50', 'wahyu', 8000000);
 INSERT INTO `transaksi` VALUES ('202503050001', '2025-03-04 12:43:24', 'diona', 1700000);
+INSERT INTO `transaksi` VALUES ('202503050002', '2025-03-05 13:16:02', 'yayan', 1200000);
+INSERT INTO `transaksi` VALUES ('202503050003', '2025-03-05 13:16:26', 'kana', 2800000);
+INSERT INTO `transaksi` VALUES ('202503050004', '2025-03-05 13:23:29', 'damar', 7200000);
 
 SET FOREIGN_KEY_CHECKS = 1;

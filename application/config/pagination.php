@@ -1,0 +1,21 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+$config['num_links'] = 2;
+$config['full_tag_open'] = '<div class="row-fluid"><div class="span9"></div><div class="span3 btn-group">';
+$config['full_tag_close'] = '</div></div><br>';
+$config['first_link'] = 'First';
+$config['first_tag_open'] = '<button class="btn">';
+$config['first_tag_close'] = '</button>';
+$config['last_link'] = 'Last';
+$config['last_tag_open'] = '<button class="btn">';
+$config['last_tag_close'] = '</button>';
+$config['next_link'] = '&gt;';
+$config['next_tag_open'] = '<button class="btn">';
+$config['next_tag_close'] = '</button>';
+$config['prev_link'] = '&lt;';
+$config['prev_tag_open'] = '<button class="btn">';
+$config['prev_tag_close'] = '</button>';
+$config['cur_tag_open'] = '<button class="btn"><b>';
+$config['cur_tag_close'] = '</b></button>';
+$config['num_tag_open'] = '<button class="btn">';
+$config['num_tag_close'] = '</button>';

@@ -9,15 +9,22 @@ class transaksi extends CI_Controller
         $this->load->model("transaksi_model");
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
+        $this->load->library('pagination');
         $this->load->helper('function_helper');
     }
-    public function index()
+    public function index($func = '', $offset = 0)
     {
-        $this->load->view("skin");
+        $config['base_url'] = base_url() . "transaksi/index/ViewPage";
+        $config['total_rows'] = $this->transaksi_model->CountData();
+        $config['per_page'] = 5;
+        $this->pagination->initialize($config);
+        $data['offset'] = $offset;
+        $this->load->view("skin", $data);
     }
     public function ViewPage()
     {
-        $data['all_data'] = $this->transaksi_model->TampilData();
+        $offset = $this->input->post('offset');
+        $data['all_data'] = $this->transaksi_model->TampilData(5, $offset);
         $this->load->view("tabel_transaksi", $data);
     }
     public function Ubah_Data()
@@ -64,6 +71,7 @@ class transaksi extends CI_Controller
             "jumlah" => $this->input->post('jumlah')
         );
         $success = $this->transaksi_model->save($inputdata);
+        $inputdata = (array) $this->transaksi_model->AmbilData($id);
         if ($success) {
             $dataArray = array(
                 "akun" => 'Default',
@@ -75,11 +83,6 @@ class transaksi extends CI_Controller
             $this->log_book_model->save($dataArray);
         }
     }
-    // public function Test()
-    // {
-    //     $id = NoTransaksiGen($this->transaksi_model->OldID());
-    //     var_dump($id) ;
-    // }
     public function Edit_Data()
     {
         $id = $this->input->post('id_transaksi');

@@ -27,9 +27,13 @@ class orang_model extends CI_Model
     {
         return $this->db->get_where('orang', array('id'=>$id))->row();
     }
-    public function TampilData()
+    public function CountData()
     {
-        return $this->db->get('orang')->result();
+        return $this->db->count_all('orang');
+    }
+    public function TampilData($limit = 5,$offset = 0)
+    {
+        return $this->db->limit($limit,$offset)->get('orang')->result();
     }
     public function delete($id)
     {

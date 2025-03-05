@@ -22,9 +22,13 @@ class barang_model extends CI_Model
     {
         return $this->db->get_where('barang', ["id_item" => $id])->row();
     }
-    public function TampilData()
+    public function CountData()
     {
-        return $this->db->get('barang')->result();
+        return $this->db->count_all('barang');
+    }
+    public function TampilData($limit = 5, $offset = 0)
+    {
+        return $this->db->limit($limit, $offset)->get('barang')->result();
     }
     public function delete($id)
     {
