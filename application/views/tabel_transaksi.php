@@ -6,7 +6,30 @@
     <button class="span2 btn btn-success" type="button" style="border: 1px solid black"
         onclick="CetakData()">Cetak Data
     </button><br><br>
-    <table>
+    <table style="width:100%">
+        <tr>
+            <label class="span">
+                Tampilkan
+                <select tabindex="-1" oninput="RefreshTabel(0,$('#limit').val())" style="width: 75px" name="limit" id="limit">
+                    <option value="5" <?php if ($limit == 5) {
+                                            echo "selected";
+                                        } ?>>5</option>
+                    <option value="10" <?php if ($limit == 10) {
+                                            echo "selected";
+                                        } ?>>10</option>
+                    <option value="25" <?php if ($limit == 25) {
+                                            echo "selected";
+                                        } ?>>25</option>
+                    <option value="50" <?php if ($limit == 50) {
+                                            echo "selected";
+                                        } ?>>50</option>
+                    <option value="100" <?php if ($limit == 100) {
+                                            echo "selected";
+                                        } ?>>100</option>
+                </select>
+                entri
+            </label>
+        </tr>
         <tr style="background-color:rgba(62, 49, 159, 0.36)">
             <th>No. Transaksi</th>
             <th>Waktu</th>
@@ -36,7 +59,7 @@
             <?php endforeach; ?>
             </tr>
     </table>
-    <p id="pagination"></p>
+    <?php echo $pagination ?>
     <script type="text/javascript">
         function HapusData(x) {
             if (confirm("Apakah anda yakin untuk menghapus data " + x + "?")) {

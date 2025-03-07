@@ -27,19 +27,37 @@
         link = base + "/home"
     }
     var data = {
-        offset: '<?php if (isset($offset)) echo $offset; ?>'
+        offset: '<?php (isset($offset)) ? print($offset) : print(0); ?>',
+        limit: '<?php (isset($limit)) ? print($limit) : print(5); ?>'
     }
-    console.log(data['offset'])
     $.ajax({
         url: (link + "/ViewPage").replaceAll('index/', ''),
         type: 'POST',
-        data: data,
+        //data: data,
         success: function(xdata) {
             $('#page_view').html(xdata);
-            $('#pagination').html('<?php if (isset($offset)) echo $this->pagination->create_links(); ?>');
         }
     })
 
+    function RefreshTabel(offset, limit) {
+        console.log(offset)
+        data = {
+            offset: offset,
+            limit: limit
+        }
+        var element = document.getElementsByName('tableContent')
+        for (let i = element.length; i > 0; i--) {
+            element[i - 1].remove()
+        }
+        $.ajax({
+            url: (link + "/ViewPage").replaceAll('index/', ''),
+            type: 'POST',
+            data: data,
+            success: function(vdata) {
+                $("#page_view").html(vdata);
+            }
+        })
+    }
     function Link(x) {
         var link = "<?php echo base_url(); ?>" + x;
         window.location.href = link

@@ -10,20 +10,19 @@ class log_book extends CI_Controller
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
         $this->load->library('pagination');
+        $this->load->helper('function_helper');
     }
-    public function index($func = '', $offset = 0)
+    public function index()
     {
-        $config['base_url'] = base_url() . "log_book/index/ViewPage";
-        $config['total_rows'] = $this->log_book_model->CountData();
-        $config['per_page'] = 5;
-        $this->pagination->initialize($config);
-        $data['offset'] = $offset;
-        $this->load->view("skin", $data);
+        $this->load->view("skin");
     }
     public function ViewPage()
     {
-        $offset = $this->input->post('offset');
-        $data['all_data'] = $this->log_book_model->TampilData(5, $offset);
+        (null != $this->input->post('offset')) ? $offset = $this->input->post('offset') : $offset = 0;
+        (null != $this->input->post('limit')) ? $limit = $this->input->post('limit') : $limit = 5;
+        $data['limit'] = $limit;
+        $data['all_data'] = $this->log_book_model->TampilData($limit, $offset);
+        $data['pagination'] = GeneratePagination($this->log_book_model->CountData(), $limit, $offset);
         $this->load->view("tabel_log_book", $data);
     }
     public function Hapus()

@@ -11,7 +11,7 @@
  Target Server Version : 100119 (10.1.19-MariaDB)
  File Encoding         : 65001
 
- Date: 05/03/2025 13:25:41
+ Date: 07/03/2025 10:19:13
 */
 
 SET NAMES utf8mb4;
@@ -91,6 +91,26 @@ INSERT INTO `log` VALUES ('2025-03-05 12:37:49', 'Default', 'Create', 'Barang', 
 INSERT INTO `log` VALUES ('2025-03-05 12:40:14', 'Default', 'Create', 'Barang', '_', '20250305124014;baju;55000;18');
 INSERT INTO `log` VALUES ('2025-03-05 12:40:40', 'Default', 'Create', 'Barang', '_', '20250305124040;susu;20000;25');
 INSERT INTO `log` VALUES ('2025-03-05 13:23:29', 'Default', 'Create', 'Transaksi', '_', '202503050004;2025-03-05 13:23:29;damar;7200000');
+INSERT INTO `log` VALUES ('2025-03-06 14:59:46', 'Default', 'Create', 'Orang', '_', '20250306145946;anak2;22;Laki-laki;deewfedwafsg');
+INSERT INTO `log` VALUES ('2025-03-06 15:00:03', 'Default', 'Create', 'Orang', '_', '20250306150003;jisu;23;Laki-laki;dgsejpdapsjpas');
+INSERT INTO `log` VALUES ('2025-03-06 15:00:18', 'Default', 'Create', 'Orang', '_', '20250306150018;kod;23;Laki-laki;hfahfadddwadwqf');
+INSERT INTO `log` VALUES ('2025-03-06 15:00:27', 'Default', 'Create', 'Orang', '_', '20250306150027;mamad;22;Laki-laki;fhtte4t4rwfesf');
+INSERT INTO `log` VALUES ('2025-03-06 15:00:42', 'Default', 'Create', 'Orang', '_', '20250306150042;kosl;66;Perempuan;dawfjdpoopvdsv');
+INSERT INTO `log` VALUES ('2025-03-06 15:00:55', 'Default', 'Create', 'Orang', '_', '20250306150055;moom;44;Perempuan;dawdweqwjoe');
+INSERT INTO `log` VALUES ('2025-03-06 15:01:12', 'Default', 'Create', 'Orang', '_', '20250306150112;ojih;21;Perempuan;oppppppppooopp');
+INSERT INTO `log` VALUES ('2025-03-06 15:01:25', 'Default', 'Create', 'Orang', '_', '20250306150125;raka;99;Laki-laki;cbjkabvajbafb');
+INSERT INTO `log` VALUES ('2025-03-06 15:01:42', 'Default', 'Create', 'Orang', '_', '20250306150142;nyaa;17;Perempuan;nyaaaaaaaaa');
+INSERT INTO `log` VALUES ('2025-03-06 15:02:17', 'Default', 'Create', 'Orang', '_', '20250306150217;nono;18;Perempuan;hiwuwq9fu90');
+INSERT INTO `log` VALUES ('2025-03-06 15:02:33', 'Default', 'Create', 'Orang', '_', '20250306150233;dalala;19;Perempuan;wokdowpako2okop');
+INSERT INTO `log` VALUES ('2025-03-07 09:22:28', 'Default', 'Create', 'Orang', '_', '20250307092228;nyayi;55;Perempuan;dg.fsfseeerw');
+INSERT INTO `log` VALUES ('2025-03-07 09:22:48', 'Default', 'Create', 'Orang', '_', '20250307092248;wali;22;Laki-laki;dvfbgnhmj,k');
+INSERT INTO `log` VALUES ('2025-03-07 09:23:07', 'Default', 'Create', 'Orang', '_', '20250307092307;sri;33;Perempuan;momoaowfjawd');
+INSERT INTO `log` VALUES ('2025-03-07 09:23:25', 'Default', 'Create', 'Orang', '_', '20250307092325;momo;19;Perempuan;koalaadawdof');
+INSERT INTO `log` VALUES ('2025-03-07 09:23:44', 'Default', 'Create', 'Orang', '_', '20250307092344;rere;19;Perempuan;gigijigvisjggij');
+INSERT INTO `log` VALUES ('2025-03-07 09:23:58', 'Default', 'Create', 'Orang', '_', '20250307092358;sams;33;Laki-laki;ggggggggggggggggggggggggggggg');
+INSERT INTO `log` VALUES ('2025-03-07 09:24:14', 'Default', 'Create', 'Orang', '_', '20250307092414;lak;25;Laki-laki;kkkkkkkkkkkkkkkkkkkkkkkkkk');
+INSERT INTO `log` VALUES ('2025-03-07 09:24:29', 'Default', 'Create', 'Orang', '_', '20250307092429;juju;66;Laki-laki;ddddddddddddddddddddd');
+INSERT INTO `log` VALUES ('2025-03-07 09:24:47', 'Default', 'Create', 'Orang', '_', '20250307092447;dio;55;Laki-laki;ibvpbebaefawfaw');
 
 -- ----------------------------
 -- Table structure for orang
@@ -124,6 +144,26 @@ INSERT INTO `orang` VALUES ('20250303101653', 'dfhzh', 43, 'Laki-laki', 'pondadw
 INSERT INTO `orang` VALUES ('20250303103500', 'yodaw', 43, 'Laki-laki', 'gwadadfggvv');
 INSERT INTO `orang` VALUES ('20250303155834', 'lara', 23, 'Perempuan', 'dwgfafadawd');
 INSERT INTO `orang` VALUES ('20250304153512', 'd', 33, 'Laki-laki', 'efdghgmjhgfdfgf');
+INSERT INTO `orang` VALUES ('20250306145946', 'anak2', 22, 'Laki-laki', 'deewfedwafsg');
+INSERT INTO `orang` VALUES ('20250306150003', 'jisu', 23, 'Laki-laki', 'dgsejpdapsjpas');
+INSERT INTO `orang` VALUES ('20250306150018', 'kod', 23, 'Laki-laki', 'hfahfadddwadwqf');
+INSERT INTO `orang` VALUES ('20250306150027', 'mamad', 22, 'Laki-laki', 'fhtte4t4rwfesf');
+INSERT INTO `orang` VALUES ('20250306150042', 'kosl', 66, 'Perempuan', 'dawfjdpoopvdsv');
+INSERT INTO `orang` VALUES ('20250306150055', 'moom', 44, 'Perempuan', 'dawdweqwjoe');
+INSERT INTO `orang` VALUES ('20250306150112', 'ojih', 21, 'Perempuan', 'oppppppppooopp');
+INSERT INTO `orang` VALUES ('20250306150125', 'raka', 99, 'Laki-laki', 'cbjkabvajbafb');
+INSERT INTO `orang` VALUES ('20250306150142', 'nyaa', 17, 'Perempuan', 'nyaaaaaaaaa');
+INSERT INTO `orang` VALUES ('20250306150217', 'nono', 18, 'Perempuan', 'hiwuwq9fu90');
+INSERT INTO `orang` VALUES ('20250306150233', 'dalala', 19, 'Perempuan', 'wokdowpako2okop');
+INSERT INTO `orang` VALUES ('20250307092228', 'nyayi', 55, 'Perempuan', 'dg.fsfseeerw');
+INSERT INTO `orang` VALUES ('20250307092248', 'wali', 22, 'Laki-laki', 'dvfbgnhmj,k');
+INSERT INTO `orang` VALUES ('20250307092307', 'sri', 33, 'Perempuan', 'momoaowfjawd');
+INSERT INTO `orang` VALUES ('20250307092325', 'momo', 19, 'Perempuan', 'koalaadawdof');
+INSERT INTO `orang` VALUES ('20250307092344', 'rere', 19, 'Perempuan', 'gigijigvisjggij');
+INSERT INTO `orang` VALUES ('20250307092358', 'sams', 33, 'Laki-laki', 'ggggggggggggggggggggggggggggg');
+INSERT INTO `orang` VALUES ('20250307092414', 'lak', 25, 'Laki-laki', 'kkkkkkkkkkkkkkkkkkkkkkkkkk');
+INSERT INTO `orang` VALUES ('20250307092429', 'juju', 66, 'Laki-laki', 'ddddddddddddddddddddd');
+INSERT INTO `orang` VALUES ('20250307092447', 'dio', 55, 'Laki-laki', 'ibvpbebaefawfaw');
 
 -- ----------------------------
 -- Table structure for transaksi

@@ -3,7 +3,7 @@
 
         <!-- Modal content -->
         <div class="modal-content" style="padding: 20px;padding-bottom:10px">
-            <span class="close flex" style="border-radius: 5px;opacity: 0.8;color:white;background-color:rgb(255, 0, 0, 1);height:40px;width:40px">
+            <span id="formClose" class="close flex" style="border-radius: 5px;opacity: 0.8;color:white;background-color:rgb(255, 0, 0, 1);height:40px;width:40px">
                 &times;
             </span>
             <h1 style="color:blue">
@@ -12,24 +12,24 @@
             <form name="input_form" method="post" action="" onsubmit="return false">
                 <input type="hidden" id="id" name="id" value="<?php if (isset($row->id)) echo $row->id; ?>"></input>
                 <div class="row-fluid">
-                    <label for="">Nama:</label>
+                    <label for="nama">Nama:</label>
                     <input required type="text" id="nama" name="nama" value="<?php if (isset($row->nama)) echo $row->nama; ?>"></input>
                     <p id="alert_nama" style="color:red;"></p>
                 </div>
                 <div class="row-fluid">
-                    <label for="">Umur:</label>
+                    <label for="umur">Umur:</label>
                     <input required type="number" id="umur" min="0" name="umur" value="<?php if (isset($row->umur)) echo $row->umur; ?>"></input>
                     <p id="alert_umur" style="color:red;"></p>
                 </div>
                 <div class="row-fluid">
-                    <label for="">Jenis Kelamin:</label>
+                    <label for="jenis_kelamin">Jenis Kelamin:</label>
                     <div class="span2">
                         <input required type="radio" id="jenis_kelamin" name="jenis_kelamin" value="Laki-laki" <?php if (isset($row->jenis_kelamin)) {
                                                                                                                     if ($row->jenis_kelamin == "Laki-laki") {
                                                                                                                         echo "checked";
                                                                                                                     };
                                                                                                                 } ?>></input>
-                        <label for="laki_laki">Laki-laki</label>
+                        <label for="jenis_kelamin">Laki-laki</label>
                     </div>
                     <div class="span2">
                         <input required type="radio" id="jenis_kelamin" name="jenis_kelamin" value="Perempuan" <?php if (isset($row->jenis_kelamin)) {
@@ -37,7 +37,7 @@
                                                                                                                         echo "checked";
                                                                                                                     };
                                                                                                                 } ?>></input>
-                        <label for="perempuan">Perempuan</label>
+                        <label for="jenis_kelamin">Perempuan</label>
                     </div>
                 </div>
                 <div class="row-fluid">
@@ -54,12 +54,9 @@
                 </div>
             </form>
         </div>
-        </form>
         <p id="demo"></p>
         <p id="success_notif" style="color:green;"></p>
         <p id="redirect_time"></p>
-    </div>
-
     </div>
 </body>
 
@@ -68,7 +65,7 @@
     var modal = document.getElementById("myModal");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementById("formClose");
 
     // When the user clicks on <span> (x), close the modal
     span.onclick = function() {

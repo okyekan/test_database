@@ -12,7 +12,7 @@
             <form name="input_form" method="post" action="" onsubmit="return false">
                 <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_item)) echo $row->id_item; ?>"></input>
                 <div class="row-fluid">
-                    <label for="">Tanggal:</label>
+                    <label for="tgl1">Tanggal:</label>
                     <input oninput="Check()" type="date" id="tgl1" name="tgl1" value=""></input>
                     <p id="alert_nama" style="color:red;"></p>
                 </div>
@@ -22,7 +22,7 @@
                     <p id="alert_nama" style="color:red;"></p>
                 </div><br>
                 <div class="row-fluid">
-                    <label for="">Nomor Transaksi:</label>
+                    <label for="harga">Nomor Transaksi:</label>
                     <input oninput="Check()" type="text" id="harga" min="0" name="harga" value=""></input>
                     <p id="alert_harga" style="color:red;"></p>
                 </div>
@@ -32,12 +32,9 @@
                 </div>
             </form>
         </div>
-        </form>
         <p id="demo"></p>
         <p id="success_notif" style="color:green;"></p>
         <p id="redirect_time"></p>
-    </div>
-
     </div>
 </body>
 

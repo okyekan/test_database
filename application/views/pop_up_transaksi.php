@@ -12,12 +12,12 @@
             <form name="input_form" method="post" action="" onsubmit="return false">
                 <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_transaksi)) echo $row->id_transaksi; ?>"></input>
                 <div class="row-fluid">
-                    <label for="">Nama Customer:</label>
+                    <label for="nama">Nama Customer:</label>
                     <input required type="text" id="nama" name="nama" value="<?php if (isset($row->akun)) echo $row->akun; ?>"></input>
                     <p id="alert_nama" style="color:red;"></p>
                 </div>
                 <div class="row-fluid">
-                    <label for="">Jumlah:</label>
+                    <label for="harga">Jumlah:</label>
                     <input required type="text" id="harga" min="0" name="harga" value="<?php if (isset($row->jumlah)) echo $row->jumlah; ?>"></input>
                     <p id="alert_harga" style="color:red;"></p>
                 </div>
@@ -27,12 +27,9 @@
                 </div>
             </form>
         </div>
-        </form>
         <p id="demo"></p>
         <p id="success_notif" style="color:green;"></p>
         <p id="redirect_time"></p>
-    </div>
-
     </div>
 </body>
 
