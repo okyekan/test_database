@@ -1,5 +1,8 @@
 <div class="span10">
     <h1>Tabel Log Book</h1>
+    <button onclick="window.open('<?php echo base_url() . 'log_book'; ?>/CetakPDF','_blank')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
+        Cetak Data
+    </button><br /><br />
     <table style="width:100%">
         <tr>
             <label class="span">
@@ -55,16 +58,20 @@
                     <?php
                     //Mencetak text penjelasan
                     if ($jenis == "Create") {
-                        echo "Menambah data " . $akhir[1];
+                        if ($show->tabel == "Transaksi") {
+                            echo "Menambah data " . $akhir[2];
+                        } else {
+                            echo "Menambah data " . $akhir[1];
+                        }
                     } else if ($jenis == "Delete") {
                         echo "Menghapus data " . $awal[1];
                     } else {
                         $first = true;
                         for ($i = 0; $i < sizeof($awal); $i++) {
-                            if (!$first) {
-                                echo "\r\n";
-                            }
                             if ($awal[$i] != $akhir[$i]) {
+                                if (!$first) {
+                                    print(" - ");
+                                }
                                 echo "Mengubah dari " . $awal[$i] . " menjadi " . $akhir[$i];
                                 $first = false;
                             }

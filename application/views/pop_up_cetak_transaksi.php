@@ -23,7 +23,7 @@
                 </div><br>
                 <div class="row-fluid">
                     <label for="harga">Nomor Transaksi:</label>
-                    <input oninput="Check()" type="text" id="harga" min="0" name="harga" value=""></input>
+                    <input oninput="Check()" type="text" id="nomor" min="0" name="nomor" value=""></input>
                     <p id="alert_harga" style="color:red;"></p>
                 </div>
 
@@ -59,7 +59,7 @@
 
     function Check() {
         const d = document.getElementById("tgl1").value
-        const e = document.getElementById("harga").value
+        const e = document.getElementById("nomor").value
         var f = document.getElementById("gg")
         var g = document.getElementById("tgl2")
         let filled = d + e
@@ -68,7 +68,7 @@
             f.style.display = "none"
         } else {
             f.style.display = "flex"
-            g.setAttribute('min',d)
+            g.setAttribute('min', d)
         }
 
         if (filled == "") {
@@ -79,21 +79,21 @@
     }
 
     function Validasi() {
-        KirimData("Cetak")
+        KirimData()
     }
 
-    function KirimData(send) {
-        var id = $('#id').val();
-        var nama = $('#nama').val();
-        var harga = parseInt($('#harga').val());
+    function KirimData() {
+        var tgl1 = $('#tgl1').val();
+        var tgl2 = $('#tgl2').val();
+        var nomor = parseInt($('#nomor').val());
         var data = {
-            id_transaksi: id,
-            akun: nama,
-            jumlah: harga,
+            tgl1: tgl1,
+            tgl2: tgl2,
+            nomor: nomor,
         }
         console.log(data)
         $.ajax({
-            url: "<?php echo base_url() . 'transaksi/'; ?>" + send + "<?php echo '_Data'; ?>",
+            url: "<?php echo base_url(); ?>transaksi/CetakPDF",// + tgl1 + "=" + tgl2 + "=" + nomor,
             type: "POST",
             data: data,
             success: function() {
@@ -106,7 +106,7 @@
             var frm = document.getElementsByName("input_form")[0]
             frm.reset()
             modal.style.display = "none";
-            location.reload()
+            window.open("<?php echo base_url(); ?>transaksi/CetakPDF"/* + tgl1 + "=" + tgl2 + "=" + nomor*/, "_blank")
         }
 
         function Timing(t) {

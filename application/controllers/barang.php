@@ -10,7 +10,7 @@ class barang extends CI_Controller
         $this->load->model("barang_model");
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
-        $this->load->library('pagination');
+        $this->load->library('pdf');
         $this->load->helper('function_helper');
     }
     public function index()
@@ -97,5 +97,29 @@ class barang extends CI_Controller
             );
             $this->log_book_model->save($dataArray);
         }
+    }
+    public function CetakPDF()
+    {
+        $pdf = new FPDF();
+        $pdf->AddPage('L', 'A4');
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(190, 7, 'Data Barang', 0, 1, 'L');
+        $pdf->Cell(10, 7, '', 0, 1);
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(10, 6, 'No', 1, 0);
+        $pdf->Cell(50, 6, 'Nama', 1, 0);
+        $pdf->Cell(50, 6, 'Harga', 1, 0);
+        $pdf->Cell(15, 6, 'Stok', 1, 1);
+        $pdf->SetFont('Arial', '', 10);
+        $datapoll = $this->barang_model->TampilData(1000, 0);
+        $no = 1;
+        foreach ($datapoll as $data) {
+            $pdf->Cell(10, 6, $no, 1, 0);
+            $pdf->Cell(50, 6, $data->nama_barang, 1, 0);
+            $pdf->Cell(50, 6, $data->harga, 1, 0);
+            $pdf->Cell(15, 6, $data->stok, 1, 1);
+            $no++;
+        }
+        $pdf->Output();
     }
 }

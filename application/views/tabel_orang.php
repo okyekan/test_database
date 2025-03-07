@@ -2,7 +2,10 @@
   <h1>Tabel Orang</h1>
   <button class="span2 btn btn-primary" type="button" style="border: 1px solid black"
     onclick="TambahData()">Input Data
-  </button><br><br>
+  </button>
+  <button onclick="window.open('<?php echo base_url() . 'orang'; ?>/CetakPDF','_blank')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
+    Cetak Data
+</button><br><br>
   <table style="width:100%">
     <tr>
       <label class="span">
@@ -88,6 +91,16 @@
         id: x
       }
       AjaxSend("Ubah_Data", data)
+    }
+
+    function CetakData() {
+      $.ajax({
+        url: "<?php echo base_url() . 'orang'; ?>/CetakPDF",
+        type: 'POST',
+        success: function() {
+          window.location.href = url
+        }
+      })
     }
 
     function AjaxSend(url, vdata) {
