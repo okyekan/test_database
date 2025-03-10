@@ -49,55 +49,50 @@ function GeneratePagination($total, $limit = 5, $offset = 0)
     $gropen = '<div class="row-fluid"><div class="span9"></div><div id="tombol" class="span3 btn-group">';
     $grclose = '</div></div><br>';
     $btopen1 = '<button onclick="';
+    $btopen1b = '<button class="btn" data-toggle="modal" data-target="#myModal"';
     $btopen2 = '" class="btn"';
     $disabled = ' disabled';
     $btopen3 = '>';
-    $pop_up = '<body><div id="pageModal" class="modal" style="display:none">
-                    <div class="modal-content" style="padding: 20px;padding-bottom:10px">
-                        <span id="pageNaviClose" class="close flex" style="border-radius: 5px;opacity: 0.8;color:white;background-color:rgb(255, 0, 0, 1);height:40px;width:40px">
-                            &times;
-                        </span>
-                        <form name="input_form" method="post" action="" onsubmit="return false">
-                            <div class="row-fluid">
-                                <label for="jump_page">Ke Halaman:</label>
-                                <input required type="number" id="jump_page" min="1" max="' . $pages . '" name="jump_page"></input>
+    $pop_up = ' <div class="modal" id="myModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Ke Halaman:</h4>
                             </div>
-
-                            <div class="row-fluid justify-content-end flex" style="justify-content: end;">
-                                <input class="btn btn-success" type="submit" value="JUMP" onclick="RefreshTabel(($(\'#jump_page\').val()-1)*$(\'#limit\').val(),$(\'#limit\').val())">
+                            <div class="modal-body">
+                                <input type="number" id="jump_page" min="1" max="' . $pages . '" name="jump_page"></input>
                             </div>
-                        </form>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="RefreshTabel(($(\'#jump_page\').val()-1)*$(\'#limit\').val(),$(\'#limit\').val())">Jump</button>
+                            </div>
+                        </div>
                     </div>
-                </div></body>';
-    $script = ' <script type="text/javascript">
-                    var page_modal = document.getElementById("pageModal");
+                </div>';
+    // <div id="pageModal" class="modal" style="display:none">
+    //                 <div class="modal-content" style="padding: 20px;padding-bottom:10px">
+    //                     <span id="pageNaviClose" class="close flex" style="border-radius: 5px;opacity: 0.8;color:white;background-color:rgb(255, 0, 0, 1);height:40px;width:40px">
+    //                         &times;
+    //                     </span>
+    //                     <form name="input_form" method="post" action="" onsubmit="return false">
+    //                         <div class="row-fluid">
+    //                             <label for="jump_page">Ke Halaman:</label>
+    //                             <input required type="number" id="jump_page" min="1" max="' . $pages . '" name="jump_page"></input>
+    //                         </div>
 
-                    function PageNavi() {
-                        page_modal.style.display = "block"
-                    }
-
-                    // Get the <span> element that closes the modal
-                    var page_span = document.getElementById("pageNaviClose");
-
-                    // When the user clicks on <span> (x), close the modal
-                    page_span.onclick = function() {
-                        page_modal.style.display = "none";
-                    }
-
-                    // When the user clicks anywhere outside of the modal, close it
-                    window.onclick = function(event) {
-                        if (event.target == page_modal) {
-                            page_modal.style.display = "none";
-                        }
-                    }
-                </script>';
+    //                         <div class="row-fluid justify-content-end flex" style="justify-content: end;">
+    //                             <input class="btn btn-success" type="submit" value="JUMP" onclick="RefreshTabel(($(\'#jump_page\').val()-1)*$(\'#limit\').val(),$(\'#limit\').val())">
+    //                         </div>
+    //                     </form>
+    //                 </div>
+    //             </div>';
     $btclose = '</button>';
     $arr = PageStructure($page, $pages, $maxLength);
 
     for ($i = 0; $i < count($arr); $i++) {
         if ($arr[$i] == 0) {
             //render '..'
-            $gropen = $gropen . $btopen1 . "PageNavi()" . $btopen2;
+            $gropen = $gropen . $btopen1b;
             ($arr[$i] == $page) ? $gropen = $gropen . $disabled : '';
             $gropen = $gropen . $btopen3 . "..." . $btclose;
         } else {
@@ -109,7 +104,7 @@ function GeneratePagination($total, $limit = 5, $offset = 0)
     }
     $gropen = $gropen . $grclose;
     if ($pages > $maxLength) {
-        $gropen = $gropen . $pop_up . $script;
+        $gropen = $gropen . $pop_up;
     }
     return $gropen;
 }

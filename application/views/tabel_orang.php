@@ -5,7 +5,7 @@
   </button>
   <button onclick="window.open('<?php echo base_url() . 'orang'; ?>/CetakPDF','_blank')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
     Cetak Data
-</button><br><br>
+  </button><br><br>
   <table style="width:100%">
     <tr>
       <label class="span">
@@ -68,7 +68,7 @@
       </tr>
     <?php endforeach; ?>
   </table>
-  <?php echo $pagination ?>
+  <div class="pull-right"><?php echo $pagination ?></div>
   <script type="text/javascript">
     function HapusData(x, y) {
       if (confirm("Apakah anda yakin untuk menghapus data " + y + "?")) {
@@ -110,6 +110,7 @@
         data: vdata,
         success: function(xdata) {
           $('#pop_up_form').html(xdata);
+          $('#myModalInput').modal()
           if (url == "Hapus") {
             location.reload()
           }

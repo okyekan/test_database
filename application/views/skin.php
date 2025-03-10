@@ -1,25 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
+    <title>My Database</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script src="<?php echo base_url() . 'assets/JQuery/jquery.js'; ?>"></script>
+    <script src="<?php echo base_url("assets/js/bootstrap.js"); ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url("assets/CSS/bootstrap.css"); ?>" />
     <link rel="stylesheet" href="<?php echo base_url("assets/CSS/app.css"); ?>" />
-    <!-- <div class="row-fluid justify-content-end" style="padding-left:20px;background-color:rgb(174, 71, 98);color:rgb(255, 255, 255)">
-        <h1>Hello</h1> -->
-    </div>
+    <style>
+        /* .affix {
+            top: 0;
+            width: 100%;
+            z-index: 9999 !important;
+        }
+
+        .affix+.container-fluid {
+            padding-top: 70px;
+        } */
+        body {
+            padding-right: 0 !important
+        }
+    </style>
 </head>
 
-<div style="background-color:rgb(222, 239, 238);">
-    <div class="row-fluid">
-        <div class="span2 cust-menu" style="height: 100%">
-            <div class="row-fluid cust-menu"><button class="menu-buttn" onclick="Link('home')"><b>Home</b></button></div>
-            <div class="row-fluid cust-menu"><button class="menu-buttn" onclick="Link('orang')"><b>Orang</b></button></div>
-            <div class="row-fluid cust-menu"><button class="menu-buttn" onclick="Link('barang')"><b>Barang</b></button></div>
-            <div class="row-fluid cust-menu"><button class="menu-buttn" onclick="Link('log_book')"><b>Log Book</b></button></div>
-            <div class="row-fluid cust-menu"><button class="menu-buttn" onclick="Link('transaksi')"><b>Transaksi</b></button></div>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">WebSiteName</a>
         </div>
-        <div id="page_view" class="span10">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+        </ul>
+    </nav>
+    <div class="col-sm-3 col-md-2 navbar-fixed-top sidebar cust-menu" style="border-radius: 0px;top:51px; height:100%">
+        <ul class="nav nav-sidebar">
+            <li><button class="menu-buttn" onclick="Link('home')"><b>Home</b></button></li>
+            <li><button class="menu-buttn" onclick="Link('orang')"><b>Orang</b></button></li>
+            <li><button class="menu-buttn" onclick="Link('barang')"><b>Barang</b></button></li>
+            <li><button class="menu-buttn" onclick="Link('log_book')"><b>Log Book</b></button></li>
+            <li><button class="menu-buttn" onclick="Link('transaksi')"><b>Transaksi</b></button></li>
+        </ul>
+    </div>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 text-left main" style="height:1000px;top:51px">
+        <div id="page_view" class="container-fluid">
         </div>
     </div>
-</div>
+</body>
+
 <script type="text/javascript">
     var link = window.location.href
     var base = "<?php echo base_url(); ?>"
@@ -41,6 +71,9 @@
 
     function RefreshTabel(offset, limit) {
         console.log(offset)
+        $('.modal').modal('hide')
+        $('body').removeClass('modal-open')
+        $('.modal-backdrop').remove()
         data = {
             offset: offset,
             limit: limit
@@ -58,10 +91,11 @@
             }
         })
     }
+
     function Link(x) {
         var link = "<?php echo base_url(); ?>" + x;
         window.location.href = link
     }
 </script>
-<div id="pop_up_form">
-</div>
+
+</html>

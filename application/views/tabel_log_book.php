@@ -89,7 +89,7 @@
             </tr>
         <?php endforeach; ?>
     </table>
-    <?php echo $pagination ?>
+    <div class="pull-right"><?php echo $pagination ?></div>
     <script type="text/javascript">
         function HapusData(x, y) {
             if (confirm("Apakah anda yakin untuk menghapus log milik " + y + "?")) {

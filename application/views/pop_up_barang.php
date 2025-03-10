@@ -1,42 +1,51 @@
-<body>
-    <div id="myModal" class="modal">
+<div class="modal" id="myModalInput" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
 
-        <!-- Modal content -->
-        <div class="modal-content" style="padding: 20px;padding-bottom:10px">
-            <span class="close flex" style="border-radius: 5px;opacity: 0.8;color:white;background-color:rgb(255, 0, 0, 1);height:40px;width:40px">
-                &times;
-            </span>
-            <h1 style="color:blue">
-                Form <?php echo $aksi; ?> Data
-            </h1>
-            <form name="input_form" method="post" action="" onsubmit="return false">
-                <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_item)) echo $row->id_item; ?>"></input>
-                <div class="row-fluid">
-                    <label for="nama">Nama Barang:</label>
-                    <input required type="text" id="nama" name="nama" value="<?php if (isset($row->nama_barang)) echo $row->nama_barang; ?>"></input>
-                    <p id="alert_nama" style="color:red;"></p>
-                </div>
-                <div class="row-fluid">
-                    <label for="harga">Harga:</label>
-                    <input required type="text" id="harga" min="0" name="harga" value="<?php if (isset($row->harga)) echo $row->harga; ?>"></input>
-                    <p id="alert_harga" style="color:red;"></p>
-                </div>
-                <div class="row-fluid">
-                    <label for="stok">Stok:</label>
-                    <input required type="text" id="stok" min="0" name="stok" value="<?php if (isset($row->stok)) echo $row->stok; ?>"></input>
-                    <p id="alert_stok" style="color:red;"></p>
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Form <?php echo $aksi; ?> Data</h4>
+            </div>
 
-                <div class="row-fluid justify-content-end flex" style="justify-content: end;">
-                    <input class="btn btn-success" type="submit" value="SUBMIT" onclick="Validasi()">
-                </div>
-            </form>
+            <div class="modal-body">
+                <form name="input_form" method="post" action="" onsubmit="return false">
+                    <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_item)) echo $row->id_item; ?>"></input>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="nama">Nama Barang:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" required type="text" id="nama" name="nama" value="<?php if (isset($row->nama_barang)) echo $row->nama_barang; ?>"></input>
+                            <p id="alert_nama" style="color:red;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="harga">Harga:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" required type="text" id="harga" min="0" name="harga" value="<?php if (isset($row->harga)) echo $row->harga; ?>"></input>
+                            <p id="alert_harga" style="color:red;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label" for="stok">Stok:</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" required type="text" id="stok" min="0" name="stok" value="<?php if (isset($row->stok)) echo $row->stok; ?>"></input>
+                            <p id="alert_stok" style="color:red;"></p>
+                        </div>
+                    </div>
+
+                    <div class="row-fluid justify-content-end flex" style="justify-content: end;">
+                        <input class="btn btn-success" type="submit" value="SUBMIT" onclick="Validasi()">
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <p id="demo"></p>
+                <p id="success_notif" style="color:green;"></p>
+                <p id="redirect_time"></p>
+            </div>
         </div>
-        <p id="demo"></p>
-        <p id="success_notif" style="color:green;"></p>
-        <p id="redirect_time"></p>
     </div>
-</body>
+</div>
 
 <script>
     // Get the modal
@@ -121,7 +130,7 @@
         function PopSuccess() {
             var frm = document.getElementsByName("input_form")[0]
             frm.reset()
-            modal.style.display = "none";
+            $('#myModalInput').modal('toggle')
             location.reload()
         }
 

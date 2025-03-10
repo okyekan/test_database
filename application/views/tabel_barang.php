@@ -69,7 +69,7 @@
       </tr>
     <?php endforeach; ?>
   </table>
-  <?php echo $pagination ?>
+  <div class="pull-right"><?php echo $pagination ?></div>
   <script type="text/javascript">
     function HapusData(x, y) {
       if (confirm("Apakah anda yakin untuk menghapus data " + y + "?")) {
@@ -101,6 +101,7 @@
         data: vdata,
         success: function(xdata) {
           $('#pop_up_form').html(xdata);
+          $('#myModalInput').modal()
           if (url == "Hapus") {
             location.reload()
           }
