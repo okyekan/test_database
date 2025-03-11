@@ -1,6 +1,6 @@
 <div class="span10">
     <h1>Tabel Log Book</h1>
-    <button onclick="window.open('<?php echo base_url() . 'log_book'; ?>/CetakPDF','_blank')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
+    <button onclick="AjaxSend('Cetak_Data')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
         Cetak Data
     </button><br /><br />
     <table style="width:100%">
@@ -108,9 +108,14 @@
                 type: 'POST',
                 data: data,
                 success: function(xdata) {
-                    location.reload()
+                    $('#pop_up_form').html(xdata);
+                    $('#myModalInput').modal()
+                    if (url == "Hapus")
+                        location.reload()
                 }
             })
         }
     </script>
+</div>
+<div id="pop_up_form">
 </div>

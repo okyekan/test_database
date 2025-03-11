@@ -104,8 +104,13 @@ class transaksi extends CI_Controller
             $this->log_book_model->save($dataArray);
         }
     }
-    public function CetakPDF()
+    public function CetakPDF($tgl1 = '',$tgl2 = '',$nomor = '')
     {
+        $filter = array(
+            "tgl1" => $tgl1,
+            "tgl2" => $tgl2,
+            "nomor" => $nomor
+        );
         $pdf = new FPDF();
         $pdf->AddPage('L', 'A4');
         $pdf->SetFont('Arial', 'B', 16);
@@ -113,14 +118,16 @@ class transaksi extends CI_Controller
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0);
+        $pdf->Cell(30, 6, 'No. Transaksi',1,0);
         $pdf->Cell(40, 6, 'Waktu', 1, 0);
         $pdf->Cell(50, 6, 'Akun', 1, 0);
         $pdf->Cell(50, 6, 'Jumlah', 1, 1);
         $pdf->SetFont('Arial', '', 10);
-        $datapoll = $this->transaksi_model->TampilData();
+        $datapoll = $this->transaksi_model->TampilData(1000,0,$filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);
+            $pdf->Cell(30, 6, $data->id_transaksi, 1, 0);
             $pdf->Cell(40, 6, $data->waktu, 1, 0);
             $pdf->Cell(50, 6, $data->akun, 1, 0);
             $pdf->Cell(50, 6, $data->jumlah, 1, 1);

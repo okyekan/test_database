@@ -10,14 +10,14 @@
                 <form name="input_form" method="post" action="" onsubmit="return false">
                     <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_transaksi)) echo $row->id_transaksi; ?>"></input>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="nama">Nama Customer:</label>
+                        <label class="col-sm-2 col-form-label" for="nama">Nama Customer</label>
                         <div class="col-sm-10">
                             <input class="form-control" required type="text" id="nama" name="nama" value="<?php if (isset($row->akun)) echo $row->akun; ?>"></input>
                             <p id="alert_nama" style="color:red;"></p>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="harga">Jumlah:</label>
+                        <label class="col-sm-2 col-form-label" for="harga">Jumlah</label>
                         <div class="col-sm-10">
                             <input class="form-control" required type="text" id="harga" min="0" name="harga" value="<?php if (isset($row->jumlah)) echo $row->jumlah; ?>"></input>
                             <p id="alert_harga" style="color:red;"></p>
@@ -111,7 +111,7 @@
             var frm = document.getElementsByName("input_form")[0]
             frm.reset()
             $('#myModalInput').modal('toggle')
-            location.reload()
+            //location.reload()
         }
 
         function Timing(t) {

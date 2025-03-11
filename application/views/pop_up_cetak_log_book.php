@@ -23,13 +23,6 @@
                             <input class="form-control" oninput="Check()" type="date" id="tgl2" name="tgl2" value=""></input>
                             <p id="alert_nama" style="color:red;"></p>
                         </div>
-                    </div><br>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="harga">Nomor Transaksi</label>
-                        <div class="col-sm-10">
-                            <input class="form-control" oninput="Check()" type="text" id="nomor" min="0" name="nomor" value=""></input>
-                            <p id="alert_harga" style="color:red;"></p>
-                        </div>
                     </div>
 
                     <div class="row-fluid justify-content-end flex" style="justify-content: end;">
@@ -69,10 +62,9 @@
         function Check() {
             const c = document.getElementById("tgl1")
             const d = c.value
-            const e = document.getElementById("nomor").value
             var f = document.getElementById("gg")
             var g = document.getElementById("tgl2")
-            let filled = d + e
+            let filled = d
             console.log("update" + d)
             if (d == "") {
                 f.style.display = "none"
@@ -81,7 +73,7 @@
                 g.setAttribute('min', d)
             }
 
-            if (g.value != ""){
+            if (g.value != "") {
                 c.setAttribute('max', g.value)
             }
 
@@ -115,7 +107,7 @@
             }
             console.log(data)
             $.ajax({
-                url: "<?php echo base_url(); ?>transaksi/CetakPDF/" + tgl1 + "/" + tgl2 + "/" + nomor, // + tgl1 + "=" + tgl2 + "=" + nomor,
+                url: "<?php echo base_url(); ?>log_book/CetakPDF/" + tgl1 + "/" + tgl2, // + tgl1 + "=" + tgl2 + "=" + nomor,
                 type: "POST",
                 data: data,
                 success: function(rdata) {
@@ -128,7 +120,7 @@
                 var frm = document.getElementsByName("input_form")[0]
                 frm.reset()
                 $('#myModalInput').modal('toggle')
-                window.open("<?php echo base_url(); ?>transaksi/CetakPDF/" + tgl1 + "/" + tgl2 + "/" + nomor /* + tgl1 + "=" + tgl2 + "=" + nomor*/ , "_blank")
+                window.open("<?php echo base_url(); ?>log_book/CetakPDF/" + tgl1 + "/" + tgl2 /* + tgl1 + "=" + tgl2 + "=" + nomor*/ , "_blank")
             }
 
             function Timing(t) {

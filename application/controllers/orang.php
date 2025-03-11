@@ -112,7 +112,7 @@ class orang extends CI_Controller
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0);
-        $pdf->Cell(80, 6, 'Nama', 1, 0);
+        $pdf->Cell(50, 6, 'Nama', 1, 0);
         $pdf->Cell(15, 6, 'Umur', 1, 0);
         $pdf->Cell(30, 6, 'Jenis Kelamin', 1, 0);
         $pdf->Cell(100, 6, 'Alamat', 1, 1);
@@ -121,7 +121,7 @@ class orang extends CI_Controller
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);
-            $pdf->Cell(80, 6, $data->nama, 1, 0);
+            $pdf->Cell(50, 6, $data->nama, 1, 0);
             $pdf->Cell(15, 6, $data->umur, 1, 0);
             $pdf->Cell(30, 6, $data->jenis_kelamin, 1, 0);
             $pdf->Cell(100, 6, $data->alamat, 1, 1);

@@ -11,21 +11,21 @@
                 <form name="input_form" method="post" action="" onsubmit="return false">
                     <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_item)) echo $row->id_item; ?>"></input>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="nama">Nama Barang:</label>
+                        <label class="col-sm-2 col-form-label" for="nama">Nama Barang</label>
                         <div class="col-sm-10">
                             <input class="form-control" required type="text" id="nama" name="nama" value="<?php if (isset($row->nama_barang)) echo $row->nama_barang; ?>"></input>
                             <p id="alert_nama" style="color:red;"></p>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="harga">Harga:</label>
+                        <label class="col-sm-2 col-form-label" for="harga">Harga</label>
                         <div class="col-sm-10">
                             <input class="form-control" required type="text" id="harga" min="0" name="harga" value="<?php if (isset($row->harga)) echo $row->harga; ?>"></input>
                             <p id="alert_harga" style="color:red;"></p>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label" for="stok">Stok:</label>
+                        <label class="col-sm-2 col-form-label" for="stok">Stok</label>
                         <div class="col-sm-10">
                             <input class="form-control" required type="text" id="stok" min="0" name="stok" value="<?php if (isset($row->stok)) echo $row->stok; ?>"></input>
                             <p id="alert_stok" style="color:red;"></p>

@@ -30,8 +30,17 @@ class log_book extends CI_Controller
         $id = $this->input->post();
         $this->log_book_model->delete($id);
     }
-    public function CetakPDF()
+    public function Cetak_Data()
     {
+        $data['aksi'] = "Cetak";
+        $this->load->view("pop_up_cetak_log_book", $data);
+    }
+    public function CetakPDF($tgl1 = '', $tgl2 = '')
+    {
+        $filter = array(
+            "tgl1" => $tgl1,
+            "tgl2" => $tgl2
+        );
         function CetakDesc($tabel, $jenis, $awal, $akhir)
         {
             $str = '';
@@ -70,7 +79,7 @@ class log_book extends CI_Controller
         $pdf->Cell(30, 6, 'Jenis Perubahan', 1, 0);
         $pdf->Cell(30, 6, 'Tabel Perubahan', 1, 1);
         $pdf->SetFont('Arial', '', 10);
-        $datapoll = $this->log_book_model->TampilData(10000, 0);
+        $datapoll = $this->log_book_model->TampilData(10000, 0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);

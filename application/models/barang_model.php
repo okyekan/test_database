@@ -28,7 +28,7 @@ class barang_model extends CI_Model
     }
     public function TampilData($limit = 5, $offset = 0)
     {
-        return $this->db->limit($limit, $offset)->get('barang')->result();
+        return $this->db->order_by("id_item", "desc")->limit($limit, $offset)->get('barang')->result();
     }
     public function delete($id)
     {

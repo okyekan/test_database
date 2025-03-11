@@ -11,9 +11,20 @@ class log_book_model extends CI_Model
     {
         return $this->db->count_all('log');
     }
-    public function TampilData($limit = 5, $offset = 0)
+    public function TampilData($limit = 5, $offset = 0, $filter = array("tgl1" => '', "tgl2" => ''))
     {
-        return $this->db->limit($limit, $offset)->get('log')->result();
+        if (!empty($filter['tgl1'])) {
+            $first_date = $filter['tgl1'];
+            if (!empty($filter['tgl2'])) {
+                $second_date = $filter['tgl2'];
+                $this->db->where('DATE_FORMAT(waktu,"%Y-%m-%d")>=', $first_date);
+                $this->db->where('DATE_FORMAT(waktu,"%Y-%m-%d")<=', $second_date);
+            } else {
+                $this->db->where('DATE_FORMAT(waktu,"%Y-%m-%d")=', $first_date);
+            }
+        }
+        $query = $this->db->order_by("waktu", "desc")->limit($limit, $offset)->get('log')->result();
+        return $query;
     }
     public function delete($id)
     {

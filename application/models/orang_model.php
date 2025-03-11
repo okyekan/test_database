@@ -33,7 +33,7 @@ class orang_model extends CI_Model
     }
     public function TampilData($limit = 5,$offset = 0)
     {
-        return $this->db->limit($limit,$offset)->get('orang')->result();
+        return $this->db->order_by("id", "desc")->limit($limit,$offset)->get('orang')->result();
     }
     public function delete($id)
     {

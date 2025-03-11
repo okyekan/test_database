@@ -1,5 +1,5 @@
 /*
- Navicat Premium Data Transfer
+ Navicat Premium Dump SQL
 
  Source Server         : Local
  Source Server Type    : MySQL
@@ -11,7 +11,7 @@
  Target Server Version : 100119 (10.1.19-MariaDB)
  File Encoding         : 65001
 
- Date: 07/03/2025 15:57:12
+ Date: 11/03/2025 13:53:54
 */
 
 SET NAMES utf8mb4;
@@ -39,6 +39,8 @@ INSERT INTO `barang` VALUES ('20250305123749', 'sambal', 10000, 43);
 INSERT INTO `barang` VALUES ('20250305124014', 'baju', 55000, 18);
 INSERT INTO `barang` VALUES ('20250305124040', 'susu', 20000, 25);
 INSERT INTO `barang` VALUES ('20250307155245', 'biskuit', 10000, 28);
+INSERT INTO `barang` VALUES ('20250310153706', 'sabun', 6000, 31);
+INSERT INTO `barang` VALUES ('20250310163259', 'jus', 7000, 44);
 
 -- ----------------------------
 -- Table structure for log
@@ -117,6 +119,16 @@ INSERT INTO `log` VALUES ('2025-03-07 15:52:08', 'Default', 'Create', 'Orang', '
 INSERT INTO `log` VALUES ('2025-03-07 15:52:45', 'Default', 'Create', 'Barang', '_', '20250307155245;biskuit;10000;78');
 INSERT INTO `log` VALUES ('2025-03-07 15:53:43', 'Default', 'Update', 'Barang', '20250307155245;biskuit;10000;78', '20250307155245;biskuit;10000;28');
 INSERT INTO `log` VALUES ('2025-03-07 15:54:06', 'Default', 'Update', 'Transaksi', '202503070001;2025-03-07 14:39:04;luna;7000000', '202503070001;2025-03-07 14:39:04;luna;7700000');
+INSERT INTO `log` VALUES ('2025-03-10 15:27:08', 'Default', 'Create', 'Orang', '_', '20250310152708;reca;22;Perempuan;yuadjawdawdwdaw');
+INSERT INTO `log` VALUES ('2025-03-10 15:28:04', 'Default', 'Create', 'Orang', '_', '20250310152804;pos;34;Laki-laki;posdapdkfaege');
+INSERT INTO `log` VALUES ('2025-03-10 15:29:15', 'Default', 'Create', 'Orang', '_', '20250310152915;reme;22;Perempuan;ghj,kmk,ggnfgb');
+INSERT INTO `log` VALUES ('2025-03-10 15:30:55', 'Default', 'Create', 'Orang', '_', '20250310153055;nyawa;22;Perempuan;grhtrtrjjtrj');
+INSERT INTO `log` VALUES ('2025-03-10 15:37:06', 'Default', 'Create', 'Barang', '_', '20250310153706;sabun;6000;31');
+INSERT INTO `log` VALUES ('2025-03-10 16:32:59', 'Default', 'Create', 'Barang', '_', '20250310163259;jus;7000;44');
+INSERT INTO `log` VALUES ('2025-03-10 16:33:17', 'Default', 'Create', 'Orang', '_', '20250310163317;wati;23;Perempuan;dawjoiifawfawiagwi');
+INSERT INTO `log` VALUES ('2025-03-10 16:33:39', 'Default', 'Create', 'Transaksi', '_', '202503100001;2025-03-10 16:33:39;waluyo;9100000');
+INSERT INTO `log` VALUES ('2025-03-11 07:00:41', 'Default', 'Create', 'Orang', '_', '20250311070041;koa;18;Laki-laki;xxxxxxxxxx');
+INSERT INTO `log` VALUES ('2025-03-11 07:18:47', 'Default', 'Create', 'Transaksi', '_', '202503110001;2025-03-11 07:18:47;tumi;1000000');
 
 -- ----------------------------
 -- Table structure for orang
@@ -171,6 +183,12 @@ INSERT INTO `orang` VALUES ('20250307092414', 'lak', 25, 'Laki-laki', 'kkkkkkkkk
 INSERT INTO `orang` VALUES ('20250307092429', 'juju', 66, 'Laki-laki', 'ddddddddddddddddddddd');
 INSERT INTO `orang` VALUES ('20250307092447', 'dio', 55, 'Laki-laki', 'ibvpbebaefawfaw');
 INSERT INTO `orang` VALUES ('20250307155208', 'hhd', 33, 'Laki-laki', 'proporpora');
+INSERT INTO `orang` VALUES ('20250310152708', 'reca', 22, 'Perempuan', 'yuadjawdawdwdaw');
+INSERT INTO `orang` VALUES ('20250310152804', 'pos', 34, 'Laki-laki', 'posdapdkfaege');
+INSERT INTO `orang` VALUES ('20250310152915', 'reme', 22, 'Perempuan', 'ghj,kmk,ggnfgb');
+INSERT INTO `orang` VALUES ('20250310153055', 'nyawa', 22, 'Perempuan', 'grhtrtrjjtrj');
+INSERT INTO `orang` VALUES ('20250310163317', 'wati', 23, 'Perempuan', 'dawjoiifawfawiagwi');
+INSERT INTO `orang` VALUES ('20250311070041', 'koa', 18, 'Laki-laki', 'xxxxxxxxxx');
 
 -- ----------------------------
 -- Table structure for transaksi
@@ -195,5 +213,7 @@ INSERT INTO `transaksi` VALUES ('202503050002', '2025-03-05 13:16:02', 'yayan', 
 INSERT INTO `transaksi` VALUES ('202503050003', '2025-03-05 13:16:26', 'kana', 2800000);
 INSERT INTO `transaksi` VALUES ('202503050004', '2025-03-05 13:23:29', 'damar', 7200000);
 INSERT INTO `transaksi` VALUES ('202503070001', '2025-03-07 14:39:04', 'luna', 7700000);
+INSERT INTO `transaksi` VALUES ('202503100001', '2025-03-10 16:33:39', 'waluyo', 9100000);
+INSERT INTO `transaksi` VALUES ('202503110001', '2025-03-11 07:18:47', 'tumi', 1000000);
 
 SET FOREIGN_KEY_CHECKS = 1;

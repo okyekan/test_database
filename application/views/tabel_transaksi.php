@@ -106,6 +106,5 @@
     </script>
 </div>
 
-</div>
 <div id="pop_up_form">
 </div>
