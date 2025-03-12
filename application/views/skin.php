@@ -34,6 +34,15 @@
         <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
         </ul>
+        <?php
+        if ($this->session->userdata('admin')) {
+            echo '  <div class="nav navbar-right center-block">
+                        <a class="btn btn-primary" href="admin/logout">
+                            Log Out
+                        </a>
+                    </div>';
+        } ?>
+
     </nav>
     <div class="col-sm-3 col-md-2 navbar-fixed-top sidebar cust-menu" style="border-radius: 0px;top:51px; height:100%">
         <ul class="nav nav-sidebar">

@@ -3,7 +3,7 @@
   <button class="span2 btn btn-primary" type="button" style="border: 1px solid black"
     onclick="TambahData()">Input Data
   </button>
-  <button onclick="window.open('<?php echo base_url() . 'orang'; ?>/CetakPDF','_blank')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
+  <button onclick="CetakData()" class="span2 btn btn-success" type="button" style="border: 1px solid black">
     Cetak Data
   </button><br><br>
   <table style="width:100%">
@@ -94,13 +94,8 @@
     }
 
     function CetakData() {
-      $.ajax({
-        url: "<?php echo base_url() . 'orang'; ?>/CetakPDF",
-        type: 'POST',
-        success: function() {
-          window.location.href = url
-        }
-      })
+      data = {}
+      AjaxSend("Cetak_Data", data)
     }
 
     function AjaxSend(url, vdata) {

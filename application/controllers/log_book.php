@@ -10,6 +10,7 @@ class log_book extends CI_Controller
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
         $this->load->library('pdf');
+        $this->load->library('excel');
         $this->load->helper('function_helper');
     }
     public function index()
@@ -41,31 +42,6 @@ class log_book extends CI_Controller
             "tgl1" => $tgl1,
             "tgl2" => $tgl2
         );
-        function CetakDesc($tabel, $jenis, $awal, $akhir)
-        {
-            $str = '';
-            if ($jenis == "Create") {
-                if ($tabel == "Transaksi") {
-                    $str = "Menambah data " . $akhir[2];
-                } else {
-                    $str = "Menambah data " . $akhir[1];
-                }
-            } else if ($jenis == "Delete") {
-                $str = "Menghapus data " . $awal[1];
-            } else {
-                $first = true;
-                for ($i = 0; $i < sizeof($awal); $i++) {
-                    if ($awal[$i] != $akhir[$i]) {
-                        if (!$first) {
-                            $str = $str . " - ";
-                        }
-                        $str = $str . "Mengubah dari " . $awal[$i] . " menjadi " . $akhir[$i];
-                        $first = false;
-                    }
-                }
-            }
-            return $str;
-        }
         $pdf = new FPDF();
         $pdf->AddPage('L', 'A4');
         $pdf->SetFont('Arial', 'B', 16);
@@ -91,5 +67,38 @@ class log_book extends CI_Controller
             $no++;
         }
         $pdf->Output();
+    }
+    public function CetakExcel($tgl1 = '', $tgl2 = '')
+    {
+        $filter = array(
+            "tgl1" => $tgl1,
+            "tgl2" => $tgl2
+        );
+        $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'Data Log Book')
+            ->setCellValue('A2', 'No')
+            ->setCellValue('B2', 'Waktu')
+            ->setCellValue('C2', 'Akun')
+            ->setCellValue('D2', 'Log')
+            ->setCellValue('E2', 'Jenis Perubahan')
+            ->setCellValue('F2', 'Tabel Perubahan');
+        $datapoll = $this->log_book_model->TampilData(10000, 0, $filter);
+        $no = 1;
+        foreach ($datapoll as $data) {
+            $exl->setActiveSheetIndex(0)
+                ->setCellValue('A'.($no+1),$no)
+                ->setCellValue('B'.($no+1),$data->waktu)
+                ->setCellValue('C'.($no+1),$data->akun)
+                ->setCellValue('D'.($no+1),CetakDesc($data->tabel,$data->jenis,explode(';',$data->awal),explode(';',$data->akhir)))
+                ->setCellValue('E'.($no+1),$data->jenis)
+                ->setCellValue('F'.($no+1),$data->tabel);
+            $no++;
+        }
+        $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
+        ob_end_clean();
+        header('Content-type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename="Data Log Book.xlsx"');
+        $file->save('php://output');
     }
 }

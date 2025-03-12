@@ -11,6 +11,7 @@ class barang extends CI_Controller
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
         $this->load->library('pdf');
+        $this->load->library('excel');
         $this->load->helper('function_helper');
     }
     public function index()
@@ -98,8 +99,25 @@ class barang extends CI_Controller
             $this->log_book_model->save($dataArray);
         }
     }
-    public function CetakPDF()
+    public function Cetak_Data()
     {
+        $data['aksi'] = "Cetak";
+        $this->load->view("pop_up_cetak_barang", $data);
+    }
+    public function CetakPDF($nama = '', $harga1 = '', $harga2 = '', $stok1 = '', $stok2 = '')
+    {
+        $filter = array(
+            "nama" => $nama,
+            "harga1" => $harga1,
+            "harga2" => $harga2,
+            "stok1" => $stok1,
+            "stok2" => $stok2
+        );
+        foreach ($filter as $x) {
+            if ($x == 0) {
+                $x = '';
+            }
+        }
         $pdf = new FPDF();
         $pdf->AddPage('L', 'A4');
         $pdf->SetFont('Arial', 'B', 16);
@@ -111,7 +129,7 @@ class barang extends CI_Controller
         $pdf->Cell(50, 6, 'Harga', 1, 0);
         $pdf->Cell(15, 6, 'Stok', 1, 1);
         $pdf->SetFont('Arial', '', 10);
-        $datapoll = $this->barang_model->TampilData(1000, 0);
+        $datapoll = $this->barang_model->TampilData(1000, 0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);
@@ -121,5 +139,42 @@ class barang extends CI_Controller
             $no++;
         }
         $pdf->Output();
+    }
+    public function CetakExcel($nama = '', $harga1 = '', $harga2 = '', $stok1 = '', $stok2 = '')
+    {
+        $filter = array(
+            "nama" => $nama,
+            "harga1" => $harga1,
+            "harga2" => $harga2,
+            "stok1" => $stok1,
+            "stok2" => $stok2
+        );
+        foreach ($filter as $x) {
+            if ($x == 0) {
+                $x = '';
+            }
+        }
+        $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)
+            ->setCellValue('A1','Data Barang')
+            ->setCellValue('A2','No')
+            ->setCellValue('B2','Nama')
+            ->setCellValue('C2','Harga')
+            ->setCellValue('D2','Stok');
+        $datapoll = $this->barang_model->TampilData(1000, 0, $filter);
+        $no = 1;
+        foreach ($datapoll as $data) {
+            $exl->setActiveSheetIndex(0)
+            ->setCellValue('A'.($no+1),$no)
+            ->setCellValue('B'.($no+1),$data->nama_barang)
+            ->setCellValue('C'.($no+1),$data->harga)
+            ->setCellValue('D'.($no+1),$data->stok);
+            $no++;
+        }
+        $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
+        ob_end_clean();
+        header('Content-type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename="Data Barang.xlsx"');
+        $file->save('php://output');
     }
 }

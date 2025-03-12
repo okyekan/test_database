@@ -10,6 +10,7 @@ class transaksi extends CI_Controller
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
         $this->load->library('pdf');
+        $this->load->library('excel');
         $this->load->helper('function_helper');
     }
     public function index()
@@ -134,5 +135,37 @@ class transaksi extends CI_Controller
             $no++;
         }
         $pdf->Output();
+    }
+    public function CetakExcel($tgl1 = '', $tgl2 = '', $nomor = '')
+    {
+        $filter = array(
+            "tgl1" => $tgl1,
+            "tgl2" => $tgl2,
+            "nomor" => $nomor
+        );
+        $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)
+            ->setCellValue('A1','Data Transaksi')
+            ->setCellValue('A2','No')
+            ->setCellValue('B2','No. Transaksi')
+            ->setCellValue('C2','Waktu')
+            ->setCellValue('D2','Akun')
+            ->setCellValue('E2','Jumlah');
+        $datapoll = $this->transaksi_model->TampilData(1000, 0, $filter);
+        $no = 1;
+        foreach ($datapoll as $data) {
+            $exl->setActiveSheetIndex(0)
+                ->setCellValue('A'.($no+1),$no)
+                ->setCellValue('B'.($no+1),$data->id_transaksi)
+                ->setCellValue('C'.($no+1),$data->waktu)
+                ->setCellValue('D'.($no+1),$data->akun)
+                ->setCellValue('E'.($no+1),$data->jumlah);
+            $no++;
+        }
+        $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
+        ob_end_clean();
+        header('Content-type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename="Data Transaksi.xlsx"');
+        $file->save('php://output');
     }
 }

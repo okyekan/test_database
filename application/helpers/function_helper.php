@@ -64,7 +64,7 @@ function GeneratePagination($total, $limit = 5, $offset = 0)
                                 <input type="number" id="jump_page" min="1" max="' . $pages . '" name="jump_page"></input>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="RefreshTabel(($(\'#jump_page\').val()-1)*$(\'#limit\').val(),$(\'#limit\').val())">Jump</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="RefreshTabel(($(\'#jump_page\').val()-1)*$(\'#limit\').val(),$(\'#limit\').val())">Jump</button>
                             </div>
                         </div>
                     </div>
@@ -107,4 +107,30 @@ function GeneratePagination($total, $limit = 5, $offset = 0)
         $gropen = $gropen . $pop_up;
     }
     return $gropen;
+}
+
+function CetakDesc($tabel, $jenis, $awal, $akhir)
+{
+    $str = '';
+    if ($jenis == "Create") {
+        if ($tabel == "Transaksi") {
+            $str = "Menambah data " . $akhir[2];
+        } else {
+            $str = "Menambah data " . $akhir[1];
+        }
+    } else if ($jenis == "Delete") {
+        $str = "Menghapus data " . $awal[1];
+    } else {
+        $first = true;
+        for ($i = 0; $i < sizeof($awal); $i++) {
+            if ($awal[$i] != $akhir[$i]) {
+                if (!$first) {
+                    $str = $str . " - ";
+                }
+                $str = $str . "Mengubah dari " . $awal[$i] . " menjadi " . $akhir[$i];
+                $first = false;
+            }
+        }
+    }
+    return $str;
 }

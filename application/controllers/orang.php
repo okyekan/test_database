@@ -11,6 +11,7 @@ class orang extends CI_Controller
         $this->load->model("log_book_model");
         $this->load->library('form_validation');
         $this->load->library('pdf');
+        $this->load->library('excel');
         $this->load->helper('function_helper');
     }
     public function index()
@@ -103,8 +104,25 @@ class orang extends CI_Controller
             $this->log_book_model->save($dataArray);
         }
     }
-    public function CetakPDF()
+    public function Cetak_Data()
     {
+        $data['aksi'] = "Cetak";
+        $this->load->view("pop_up_cetak_orang", $data);
+    }
+    public function CetakPDF($nama='',$umur1='', $umur2 = '',$jenis_kelamin='',$alamat='')
+    {
+        $filter = array(
+            "nama" => $nama,
+            "umur1" => $umur1,
+            "umur2" => $umur2,
+            "jenis_kelamin" => $jenis_kelamin,
+            "alamat" => $alamat
+        );
+        foreach ($filter as $x){
+            if ($x == 0){
+                $x = '';
+            }
+        }
         $pdf = new FPDF();
         $pdf->AddPage('L', 'A4');
         $pdf->SetFont('Arial', 'B', 16);
@@ -117,7 +135,7 @@ class orang extends CI_Controller
         $pdf->Cell(30, 6, 'Jenis Kelamin', 1, 0);
         $pdf->Cell(100, 6, 'Alamat', 1, 1);
         $pdf->SetFont('Arial', '', 10);
-        $datapoll = $this->orang_model->TampilData(1000, 0);
+        $datapoll = $this->orang_model->TampilData(1000,0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);
@@ -128,5 +146,44 @@ class orang extends CI_Controller
             $no++;
         }
         $pdf->Output();
+    }
+    public function CetakExcel($nama = '', $umur1 = '', $umur2 = '', $jenis_kelamin = '', $alamat = '')
+    {
+        $filter = array(
+            "nama" => $nama,
+            "umur1" => $umur1,
+            "umur2" => $umur2,
+            "jenis_kelamin" => $jenis_kelamin,
+            "alamat" => $alamat
+        );
+        foreach ($filter as $x) {
+            if ($x == 0) {
+                $x = '';
+            }
+        }
+        $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)
+            ->setCellValue('A1', 'Data Orang')
+            ->setCellValue('A2', 'No')
+            ->setCellValue('B2', 'Nama')
+            ->setCellValue('C2', 'Umur')
+            ->setCellValue('D2', 'Jenis Kelamin')
+            ->setCellValue('E2', 'Alamat');
+        $datapoll = $this->orang_model->TampilData(1000, 0, $filter);
+        $no = 1;
+        foreach ($datapoll as $data) {
+            $exl->setActiveSheetIndex(0)
+                ->setCellValue('A'.($no+1),$no)
+                ->setCellValue('B'.($no+1),$data->nama)
+                ->setCellValue('C'.($no+1),$data->umur)
+                ->setCellValue('D'.($no+1),$data->jenis_kelamin)
+                ->setCellValue('E'.($no+1),$data->alamat);
+            $no++;
+        }
+        $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
+        ob_end_clean();
+        header('Content-type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment; filename="Data Orang.xlsx"');
+        $file->save('php://output');
     }
 }

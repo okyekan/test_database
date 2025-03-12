@@ -25,8 +25,9 @@
                         </div>
                     </div>
 
-                    <div class="row-fluid justify-content-end flex" style="justify-content: end;">
-                        <input id="submit" class="btn btn-success" type="submit" value="CETAK SEMUA DATA" onclick="Validasi()">
+                    <div class="btn-group row-fluid justify-content-end flex" style="justify-content: end;">
+                        <input id="submit" class="btn btn-danger" type="submit" value="CETAK PDF" onclick="KirimData('PDF')">
+                        <input id="submit" class="btn btn-success" type="submit" value="CETAK EXCEL" onclick="KirimData('Excel')">
                     </div>
                 </form>
             </div>
@@ -38,95 +39,84 @@
             </div>
         </div>
     </div>
-    </body>
+</div>
 
-    <script>
-        // // Get the modal
-        // var modal = document.getElementById("myModal");
+<script>
+    // // Get the modal
+    // var modal = document.getElementById("myModal");
 
-        // // Get the <span> element that closes the modal
-        // var span = document.getElementsByClassName("close")[0];
+    // // Get the <span> element that closes the modal
+    // var span = document.getElementsByClassName("close")[0];
 
-        // // When the user clicks on <span> (x), close the modal
-        // span.onclick = function() {
-        //     modal.style.display = "none";
-        // }
+    // // When the user clicks on <span> (x), close the modal
+    // span.onclick = function() {
+    //     modal.style.display = "none";
+    // }
 
-        // // When the user clicks anywhere outside of the modal, close it
-        // window.onclick = function(event) {
-        //     if (event.target == modal) {
-        //         modal.style.display = "none";
-        //     }
-        // }
+    // // When the user clicks anywhere outside of the modal, close it
+    // window.onclick = function(event) {
+    //     if (event.target == modal) {
+    //         modal.style.display = "none";
+    //     }
+    // }
 
-        function Check() {
-            const c = document.getElementById("tgl1")
-            const d = c.value
-            var f = document.getElementById("gg")
-            var g = document.getElementById("tgl2")
-            let filled = d
-            console.log("update" + d)
-            if (d == "") {
-                f.style.display = "none"
-            } else {
-                f.style.display = "flex"
-                g.setAttribute('min', d)
-            }
-
-            if (g.value != "") {
-                c.setAttribute('max', g.value)
-            }
-
-            if (filled == "") {
-                document.getElementById("submit").value = "CETAK SEMUA DATA"
-            } else {
-                document.getElementById("submit").value = "CETAK DATA PILIHAN"
-            }
+    function Check() {
+        const c = document.getElementById("tgl1")
+        const d = c.value
+        var f = document.getElementById("gg")
+        var g = document.getElementById("tgl2")
+        
+        if (d == "") {
+            f.style.display = "none"
+        } else {
+            f.style.display = "flex"
+            g.setAttribute('min', d)
         }
 
-        function Validasi() {
-            KirimData()
+        if (g.value != "") {
+            c.setAttribute('max', g.value)
+        }
+    }
+
+    function KirimData(file) {
+        var tgl1 = $('#tgl1').val();
+        var tgl2 = $('#tgl2').val();
+        var nomor = $('#nomor').val();
+        if (nomor != '') {
+            if (tgl1 == '') {
+                tgl1 = 0
+            }
+            if (tgl2 == '') {
+                tgl2 = 0
+            }
+        }
+        var data = {
+            tgl1: tgl1,
+            tgl2: tgl2,
+            nomor: nomor,
+        }
+        console.log(data)
+        $.ajax({
+            url: "<?php echo base_url(); ?>log_book/Cetak" + file + "/" + tgl1 + "/" + tgl2, // + tgl1 + "=" + tgl2 + "=" + nomor,
+            type: "POST",
+            data: data,
+            success: function(rdata) {
+                document.getElementById("success_notif").innerHTML = "Data Dicetak"
+                setTimeout(PopSuccess(), 3000)
+            }
+        })
+
+        function PopSuccess() {
+            var frm = document.getElementsByName("input_form")[0]
+            frm.reset()
+            $('#myModalInput').modal('toggle')
+            window.open("<?php echo base_url(); ?>log_book/Cetak" + file + "/" + tgl1 + "/" + tgl2 /* + tgl1 + "=" + tgl2 + "=" + nomor*/ , "_blank")
         }
 
-        function KirimData() {
-            var tgl1 = $('#tgl1').val();
-            var tgl2 = $('#tgl2').val();
-            var nomor = $('#nomor').val();
-            if (nomor != '') {
-                if (tgl1 == '') {
-                    tgl1 = 0
-                }
-                if (tgl2 == '') {
-                    tgl2 = 0
-                }
-            }
-            var data = {
-                tgl1: tgl1,
-                tgl2: tgl2,
-                nomor: nomor,
-            }
-            console.log(data)
-            $.ajax({
-                url: "<?php echo base_url(); ?>log_book/CetakPDF/" + tgl1 + "/" + tgl2, // + tgl1 + "=" + tgl2 + "=" + nomor,
-                type: "POST",
-                data: data,
-                success: function(rdata) {
-                    document.getElementById("success_notif").innerHTML = "Data Dicetak"
-                    setTimeout(PopSuccess(), 3000)
-                }
-            })
-
-            function PopSuccess() {
-                var frm = document.getElementsByName("input_form")[0]
-                frm.reset()
-                $('#myModalInput').modal('toggle')
-                window.open("<?php echo base_url(); ?>log_book/CetakPDF/" + tgl1 + "/" + tgl2 /* + tgl1 + "=" + tgl2 + "=" + nomor*/ , "_blank")
-            }
-
-            function Timing(t) {
-                // const currTime = new Date().getTime
-                // document.getElementsById("redirect_time").innerHTML = "Redirect in "+(currTime - t)+" second(s)";
-            }
-            return false
+        function Timing(t) {
+            // const currTime = new Date().getTime
+            // document.getElementsById("redirect_time").innerHTML = "Redirect in "+(currTime - t)+" second(s)";
         }
-    </script>
+        return false
+    }
+</script>
