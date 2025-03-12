@@ -155,21 +155,28 @@ class barang extends CI_Controller
             }
         }
         $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)->mergeCells('A1:D1');
         $exl->setActiveSheetIndex(0)
             ->setCellValue('A1','Data Barang')
             ->setCellValue('A2','No')
             ->setCellValue('B2','Nama')
             ->setCellValue('C2','Harga')
-            ->setCellValue('D2','Stok');
+            ->setCellValue('D2','Stok')
+            ->getStyle('A2:D2')->getFont()->setBold(true);
         $datapoll = $this->barang_model->TampilData(1000, 0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $exl->setActiveSheetIndex(0)
-            ->setCellValue('A'.($no+1),$no)
-            ->setCellValue('B'.($no+1),$data->nama_barang)
-            ->setCellValue('C'.($no+1),$data->harga)
-            ->setCellValue('D'.($no+1),$data->stok);
+            ->setCellValue('A'.($no+2),$no)
+            ->setCellValue('B'.($no+2),$data->nama_barang)
+            ->setCellValue('C'.($no+2),$data->harga)
+            ->setCellValue('D'.($no+2),$data->stok);
             $no++;
+        }
+        for ($col = 'A'; $col !== 'E'; $col++) {
+            $exl->getActiveSheet()
+                ->getColumnDimension($col)
+                ->setAutoSize(true);
         }
         $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
         ob_end_clean();

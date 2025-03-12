@@ -144,23 +144,30 @@ class transaksi extends CI_Controller
             "nomor" => $nomor
         );
         $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)->mergeCells('A1:E1');
         $exl->setActiveSheetIndex(0)
             ->setCellValue('A1','Data Transaksi')
             ->setCellValue('A2','No')
             ->setCellValue('B2','No. Transaksi')
             ->setCellValue('C2','Waktu')
             ->setCellValue('D2','Akun')
-            ->setCellValue('E2','Jumlah');
+            ->setCellValue('E2','Jumlah')
+            ->getStyle('A2:E2')->getFont()->setBold(true);
         $datapoll = $this->transaksi_model->TampilData(1000, 0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $exl->setActiveSheetIndex(0)
-                ->setCellValue('A'.($no+1),$no)
-                ->setCellValue('B'.($no+1),$data->id_transaksi)
-                ->setCellValue('C'.($no+1),$data->waktu)
-                ->setCellValue('D'.($no+1),$data->akun)
-                ->setCellValue('E'.($no+1),$data->jumlah);
+                ->setCellValue('A'.($no+2),$no)
+                ->setCellValue('B'.($no+2),$data->id_transaksi)
+                ->setCellValue('C'.($no+2),$data->waktu)
+                ->setCellValue('D'.($no+2),$data->akun)
+                ->setCellValue('E'.($no+2),$data->jumlah);
             $no++;
+        }
+        for ($col = 'A'; $col !== 'F'; $col++) {
+            $exl->getActiveSheet()
+                ->getColumnDimension($col)
+                ->setAutoSize(true);
         }
         $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
         ob_end_clean();

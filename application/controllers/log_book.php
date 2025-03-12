@@ -75,6 +75,7 @@ class log_book extends CI_Controller
             "tgl2" => $tgl2
         );
         $exl = new PHPExcel();
+        $exl->setActiveSheetIndex(0)->mergeCells('A1:F1');
         $exl->setActiveSheetIndex(0)
             ->setCellValue('A1', 'Data Log Book')
             ->setCellValue('A2', 'No')
@@ -82,18 +83,24 @@ class log_book extends CI_Controller
             ->setCellValue('C2', 'Akun')
             ->setCellValue('D2', 'Log')
             ->setCellValue('E2', 'Jenis Perubahan')
-            ->setCellValue('F2', 'Tabel Perubahan');
+            ->setCellValue('F2', 'Tabel Perubahan')
+            ->getStyle('A2:F2')->getFont()->setBold(true);
         $datapoll = $this->log_book_model->TampilData(10000, 0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $exl->setActiveSheetIndex(0)
-                ->setCellValue('A'.($no+1),$no)
-                ->setCellValue('B'.($no+1),$data->waktu)
-                ->setCellValue('C'.($no+1),$data->akun)
-                ->setCellValue('D'.($no+1),CetakDesc($data->tabel,$data->jenis,explode(';',$data->awal),explode(';',$data->akhir)))
-                ->setCellValue('E'.($no+1),$data->jenis)
-                ->setCellValue('F'.($no+1),$data->tabel);
+                ->setCellValue('A'.($no+2),$no)
+                ->setCellValue('B'.($no+2),$data->waktu)
+                ->setCellValue('C'.($no+2),$data->akun)
+                ->setCellValue('D'.($no+2),CetakDesc($data->tabel,$data->jenis,explode(';',$data->awal),explode(';',$data->akhir)))
+                ->setCellValue('E'.($no+2),$data->jenis)
+                ->setCellValue('F'.($no+2),$data->tabel);
             $no++;
+        }
+        for ($col = 'A'; $col !== 'G'; $col++) {
+            $exl->getActiveSheet()
+                ->getColumnDimension($col)
+                ->setAutoSize(true);
         }
         $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
         ob_end_clean();
