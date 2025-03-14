@@ -6,7 +6,7 @@
   <button onclick="CetakData()" class="span2 btn btn-success" type="button" style="border: 1px solid black">
     Cetak Data
   </button><br><br>
-  <table style="width:100%">
+  <table class="table table-bordered" style="width:100%">
     <tr>
       <label class="span">
         Tampilkan
@@ -32,7 +32,7 @@
     </tr>
     <tr style="background-color:rgba(62, 49, 159, 0.36)">
       <th>
-        <div class="justify-content-center">ID</div>
+        <div class="justify-content-center">Kode</div>
       </th>
       <th>
         <div class="justify-content-center">Nama</div>
@@ -52,7 +52,7 @@
     </tr>
     <?php foreach ($all_data as $show): ?>
       <tr style="background-color:rgb(228, 241, 248)">
-        <td><?php echo $show->id ?></td>
+        <td><?php echo $show->kode ?></td>
         <td><?php echo $show->nama ?></td>
         <td><?php echo $show->umur ?></td>
         <td><?php echo $show->jenis_kelamin ?></td>

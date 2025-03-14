@@ -9,11 +9,11 @@
 
             <div class="modal-body">
                 <form name="input_form" method="post" action="" onsubmit="return false">
-                    <input type="hidden" id="id" name="id" value="<?php if (isset($row->id_item)) echo $row->id_item; ?>"></input>
+                    <input type="hidden" id="id" name="id" value="<?php if (isset($row->id)) echo $row->id; ?>"></input>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label" for="nama">Nama Barang</label>
                         <div class="col-sm-10">
-                            <input class="form-control" required type="text" id="nama" name="nama" value="<?php if (isset($row->nama_barang)) echo $row->nama_barang; ?>"></input>
+                            <input class="form-control" required type="text" id="nama" name="nama" value="<?php if (isset($row->nama)) echo $row->nama; ?>"></input>
                             <p id="alert_nama" style="color:red;"></p>
                         </div>
                     </div>

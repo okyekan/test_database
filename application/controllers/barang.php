@@ -27,6 +27,15 @@ class barang extends CI_Controller
         $data['pagination'] = GeneratePagination($this->barang_model->CountData(), $limit, $offset);
         $this->load->view("tabel_barang", $data);
     }
+    public function Table()
+    {
+        echo json_encode($this->barang_model->UnionSearch($this->input->post('q')));
+    }
+    public function GetData()
+    {
+        $id = $this->input->post();
+        return $this->barang_model->AmbilData($id);
+    }
     public function Ubah_Data()
     {
         $data['aksi'] = "Ubah";
@@ -62,7 +71,7 @@ class barang extends CI_Controller
         $oldData = (array) $this->barang_model->AmbilData($id);
         $inputdata = array(
             "id_item" => $id,
-            "nama_barang" => $this->input->post('nama_barang'),
+            "nama" => $this->input->post('nama_barang'),
             "harga" => $this->input->post('harga'),
             "stok" => $this->input->post('stok')
         );
@@ -80,10 +89,10 @@ class barang extends CI_Controller
     }
     public function Simpan_Data()
     {
-        $id = IdGen();
+        $id = KodeGen($this->barang_model->OldID());
         $inputdata = array(
-            "id_item"=> $id,
-            "nama_barang" => $this->input->post('nama_barang'),
+            "kode"=> $id,
+            "nama" => $this->input->post('nama_barang'),
             "harga" => $this->input->post('harga'),
             "stok" => $this->input->post('stok')
         );

@@ -3,26 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class orang_model extends CI_Model
 {
-    public function rules()
-    {
-        return[
-            [
-                'field' => 'id',
-                'label' => 'Id',
-                'rules' => 'required'
-            ],
-            [
-                'field' => 'umur',
-                'label' => 'Umur',
-                'rules' => 'numeric'
-            ],
-            [
-                'field' => 'jenis_kelamin',
-                'label' => 'Jenis_Kelamin',
-                'rules' => 'required'
-            ]
-            ];
-    }
     public function AmbilData($id)
     {
         return $this->db->get_where('orang', array('id'=>$id))->row();
@@ -30,6 +10,11 @@ class orang_model extends CI_Model
     public function CountData()
     {
         return $this->db->count_all('orang');
+    }
+    public function OldID()
+    {
+        $this->db->select('kode');
+        return $this->db->get('orang')->result();
     }
     public function TampilData($limit = 5,$offset = 0, $filter = array("nama" => '', "umur1" => '', "umur2" => '', "jenis_kelamin" =>'', "alamat" => ''))
     {

@@ -27,6 +27,11 @@ class orang extends CI_Controller
         $data['pagination'] = GeneratePagination($this->orang_model->CountData(),$limit,$offset);
         $this->load->view("tabel_orang", $data);
     }
+    public function Table()
+    {
+        header('Content-type: application/json');
+        echo json_encode($this->orang_model->TampilData(1000, 0));
+    }
     public function Ubah_Data()
     {
         $data['aksi'] = "Ubah";
@@ -82,9 +87,9 @@ class orang extends CI_Controller
     }
     public function Simpan_Data()
     {
-        $id = IdGen();
+        $id = KodeGen($this->orang_model->OldID());
         $inputdata = array(
-            "id" => $id,
+            "kode" => $id,
             "nama" => $this->input->post('nama'),
             "umur" => $this->input->post('umur'),
             "jenis_kelamin" => $this->input->post('jenis_kelamin'),
@@ -93,7 +98,6 @@ class orang extends CI_Controller
         $success = $this->orang_model->save($inputdata);
 
         if ($success) {
-            echo 'test';
             $dataArray = array(
                 "akun" => 'Default',
                 "jenis" => 'Create',

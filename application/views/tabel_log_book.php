@@ -3,7 +3,7 @@
     <button onclick="AjaxSend('Cetak_Data')" class="span2 btn btn-success" type="button" style="border: 1px solid black">
         Cetak Data
     </button><br /><br />
-    <table style="width:100%">
+    <table class="table table-bordered" style="width:100%">
         <tr>
             <label class="span">
                 Tampilkan

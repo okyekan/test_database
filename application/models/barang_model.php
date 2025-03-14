@@ -3,34 +3,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class barang_model extends CI_Model
 {
-    public function rules()
-    {
-        return [
-            [
-                'field' => 'id_item',
-                'label' => 'Id',
-                'rules' => 'required'
-            ],
-            [
-                'field' => 'nama_barang',
-                'label' => 'Nama Barang',
-                'rules' => 'numeric'
-            ],
-        ];
-    }
     public function AmbilData($id)
     {
-        return $this->db->get_where('barang', ["id_item" => $id])->row();
+        return $this->db->get_where('barang', ["id" => $id])->row();
     }
     public function CountData()
     {
         return $this->db->count_all('barang');
     }
+    public function OldID()
+    {
+        $this->db->select('kode');
+        return $this->db->get('barang')->result();
+    }
     public function TampilData($limit = 5, $offset = 0, $filter = array("nama" => '', "harga1" => '', "harga2" => '', "stok1" => '', "stok2" => ''))
     {
         if (!empty($filter['nama'])) {
             $nama = $filter['nama'];
-            $this->db->like('nama_barang', $nama);
+            $this->db->like('nama', $nama);
         }
         if (!empty($filter['harga1'])) {
             $harga1 = $filter['harga1'];
@@ -62,7 +52,19 @@ class barang_model extends CI_Model
                 $this->db->where('stok =', $stok1);
             }
         }
-        return $this->db->order_by("id_item", "desc")->limit($limit, $offset)->get('barang')->result();
+        return $this->db->order_by("id", "desc")->limit($limit, $offset)->get('barang')->result();
+    }
+    public function UnionSearch($kw){
+        $this->db->like('kode',$kw)->get('barang');
+        $q1 = $this->db->last_query();
+        $this->db->like('nama', $kw)->get('barang');
+        $q2 = $this->db->last_query();
+        $this->db->like('harga', $kw)->get('barang');
+        $q3 = $this->db->last_query();
+        $this->db->like('stok', $kw)->get('barang');
+        $q4 = $this->db->last_query();
+        $query = $this->db->query($q1 . " UNION " . $q2 . " UNION " . $q3 . " UNION " . $q4 . " ORDER BY id DESC");
+        return $query->result();
     }
     public function delete($id)
     {
@@ -70,7 +72,7 @@ class barang_model extends CI_Model
     }
     public function GantiData($data, $id)
     {
-        $this->db->where('id_item', $id);
+        $this->db->where('id', $id);
         return $this->db->update('barang', $data);
     }
     // public function save($ambilData)

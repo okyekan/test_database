@@ -62,7 +62,7 @@ class transaksi extends CI_Controller
     }
     public function Simpan_Data()
     {
-        $id = NoTransaksiGen($this->transaksi_model->OldID());
+        $id = KodeGen($this->transaksi_model->OldID());
         $inputdata = array(
             "id_transaksi" => $id,
             "waktu" => $this->input->post('waktu'),

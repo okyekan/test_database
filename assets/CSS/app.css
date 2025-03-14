@@ -1,16 +1,6 @@
 .h1 {
    color: rgb(43, 53, 104);
 }
-table,
-th,
-td {
-   border: 3px solid black;
-   margin: 5px;
-   padding: 10px;
-   padding-top: 3px;
-   padding-bottom: 3px;
-}
-
 .cust-menu {
    background-color: rgb(32, 108, 169);
    padding-left: 0px;

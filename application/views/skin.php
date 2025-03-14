@@ -6,9 +6,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="<?php echo base_url() . 'assets/JQuery/jquery.js'; ?>"></script>
+    <script src="<?php echo base_url("assets/JQuery/jquery.js"); ?>"></script>
     <script src="<?php echo base_url("assets/js/bootstrap.js"); ?>"></script>
+    <!-- <script src="<?php //echo base_url("assets/jquery-ui/jquery.autocomplete.js"); ?>"></script>
+    <script src="<?php //echo base_url("assets/jquery-ui/jquery.ui.combogrid.js"); ?>"></script> -->
+    <script src="<?php echo base_url("assets/easyui/jquery.easyui.min.js"); ?>"></script>
     <link rel="stylesheet" href="<?php echo base_url("assets/CSS/bootstrap.css"); ?>" />
+    <!-- <link rel="stylesheet" href="<?php //echo base_url("assets/jquery-ui/jquery.autocomplete.css"); ?>" />
+    <link rel="stylesheet" href="<?php //echo base_url("assets/jquery-ui/jquery.ui.combogrid.css"); ?>" /> -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/easyui/themes/bootstrap/easyui.css"); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url("assets/easyui/themes/icon.css"); ?>">
     <link rel="stylesheet" href="<?php echo base_url("assets/CSS/app.css"); ?>" />
     <style>
         /* .affix {

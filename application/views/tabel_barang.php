@@ -6,7 +6,7 @@
   <button class="span2 btn btn-success" onclick="CetakData()" type="button" style="border: 1px solid black">
     Cetak Data
   </button><br><br>
-  <table style="width:100%">
+  <table class="table table-bordered" style="width:100%">
     <tr>
       <label class="span">
         Tampilkan
@@ -32,7 +32,7 @@
     </tr>
     <tr style="background-color:rgba(62, 49, 159, 0.36)">
       <th>
-        <div>ID</div>
+        <div>Kode Barang</div>
       </th>
       <th>
         <div>Nama Barang</div>
@@ -49,8 +49,8 @@
     </tr>
     <?php foreach ($all_data as $show): ?>
       <tr style="background-color:rgb(228, 241, 248)">
-        <td><?php echo $show->id_item ?></td>
-        <td><?php echo $show->nama_barang ?></td>
+        <td><?php echo $show->kode ?></td>
+        <td><?php echo $show->nama ?></td>
         <td>
           <div style="display:flex;justify-content:space-between">
             <p><?php echo "Rp." ?></p>
@@ -60,10 +60,10 @@
         <td><?php echo $show->stok ?></td>
         <td>
           <button type="button" class="span6 btn btn-warning" style="border: 2px solid black"
-            onclick="UbahData('<?php echo $show->id_item; ?>')">Ubah
+            onclick="UbahData('<?php echo $show->id; ?>')">Ubah
           </button>
           <button type="button" class="span6 btn btn-danger" style="border: 2px solid black"
-            onclick="HapusData('<?php echo $show->id_item; ?>','<?php echo $show->nama_barang; ?>')">Hapus
+            onclick="HapusData('<?php echo $show->id; ?>','<?php echo $show->nama; ?>')">Hapus
           </button>
         </td>
       </tr>
