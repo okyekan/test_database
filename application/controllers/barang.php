@@ -33,8 +33,9 @@ class barang extends CI_Controller
     }
     public function GetData()
     {
-        $id = $this->input->post();
-        return $this->barang_model->AmbilData($id);
+        $id = $this->input->post('id');
+        $filter = $this->input->post('filter');
+        return $this->barang_model->AmbilData($id,$filter);
     }
     public function Ubah_Data()
     {

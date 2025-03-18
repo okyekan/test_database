@@ -3,8 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class orang_model extends CI_Model
 {
-    public function AmbilData($id)
+    public function AmbilData($id, $filter = '')
     {
+        if ($filter != '') {
+            $this->db->select($filter);
+        }
         return $this->db->get_where('orang', array('id'=>$id))->row();
     }
     public function CountData()

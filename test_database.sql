@@ -11,7 +11,7 @@
  Target Server Version : 100119 (10.1.19-MariaDB)
  File Encoding         : 65001
 
- Date: 14/03/2025 10:58:58
+ Date: 18/03/2025 15:13:14
 */
 
 SET NAMES utf8mb4;
@@ -45,7 +45,7 @@ CREATE TABLE `barang`  (
   `harga` double NOT NULL,
   `stok` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of barang
@@ -53,6 +53,10 @@ CREATE TABLE `barang`  (
 INSERT INTO `barang` VALUES (1, '202503130001', 'roti', 5000, 30);
 INSERT INTO `barang` VALUES (2, '202503130002', 'Susu', 6000, 50);
 INSERT INTO `barang` VALUES (3, '202503140001', 'Roti Coklat', 4000, 35);
+INSERT INTO `barang` VALUES (4, '202503140002', 'Biskuit', 8000, 10);
+INSERT INTO `barang` VALUES (5, '202503150001', 'Bolu', 4500, 25);
+INSERT INTO `barang` VALUES (6, '202503180001', 'Bolu Keju', 8000, 24);
+INSERT INTO `barang` VALUES (7, '202503180002', 'Malkist', 5500, 48);
 
 -- ----------------------------
 -- Table structure for log
@@ -155,6 +159,19 @@ INSERT INTO `log` VALUES ('2025-03-13 08:04:25', 'Default', 'Create', 'Orang', '
 INSERT INTO `log` VALUES ('2025-03-13 08:12:30', 'Default', 'Create', 'Barang', '_', '202503130001;roti;5000;30');
 INSERT INTO `log` VALUES ('2025-03-13 08:13:01', 'Default', 'Create', 'Barang', '_', '202503130002;Susu;6000;50');
 INSERT INTO `log` VALUES ('2025-03-14 10:11:36', 'Default', 'Create', 'Barang', '_', '202503140001;Roti Coklat;4000;35');
+INSERT INTO `log` VALUES ('2025-03-14 15:40:54', 'Default', 'Create', 'Barang', '_', '202503140002;Biskuit;8000;10');
+INSERT INTO `log` VALUES ('2025-03-15 08:54:40', 'Default', 'Create', 'Barang', '_', '202503150001;Bolu;4500;25');
+INSERT INTO `log` VALUES ('2025-03-17 15:57:13', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 15:58:18', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 15:59:18', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 16:00:29', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 16:02:22', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 16:08:03', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 16:09:16', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-17 16:11:41', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-18 07:53:56', 'Default', 'Create', 'Transaksi', '_', NULL);
+INSERT INTO `log` VALUES ('2025-03-18 09:32:59', 'Default', 'Create', 'Barang', '_', '202503180001;Bolu Keju;8000;24');
+INSERT INTO `log` VALUES ('2025-03-18 09:33:51', 'Default', 'Create', 'Barang', '_', '202503180002;Malkist;5500;48');
 
 -- ----------------------------
 -- Table structure for orang
@@ -183,16 +200,28 @@ INSERT INTO `orang` VALUES (6, '202503130003', 'johan', 19, 'Laki-laki', 'qwerty
 DROP TABLE IF EXISTS `transaksi`;
 CREATE TABLE `transaksi`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `kode_transaksi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `kode` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `id_customer` int NOT NULL,
   `id_barang` int NOT NULL,
   `jumlah` int NULL DEFAULT 1,
   `waktu` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of transaksi
 -- ----------------------------
+INSERT INTO `transaksi` VALUES (8, '202503180003', 6, 1, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (9, '202503180003', 6, 2, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (10, '202503180003', 6, 3, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (11, '202503180003', 6, 4, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (12, '202503180003', 6, 5, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (13, '202503180003', 6, 6, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (14, '202503180003', 6, 7, 1, '2025-03-18 10:58:21');
+INSERT INTO `transaksi` VALUES (15, '202503180004', 1, 2, 3, '2025-03-18 12:32:56');
+INSERT INTO `transaksi` VALUES (16, '202503180004', 1, 3, 2, '2025-03-18 12:32:56');
+INSERT INTO `transaksi` VALUES (17, '202503180004', 1, 5, 2, '2025-03-18 12:32:56');
+INSERT INTO `transaksi` VALUES (18, '202503180005', 1, 2, 4, '2025-03-18 15:11:39');
+INSERT INTO `transaksi` VALUES (19, '202503180005', 1, 6, 3, '2025-03-18 15:11:39');
 
 SET FOREIGN_KEY_CHECKS = 1;

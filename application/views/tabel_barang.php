@@ -89,7 +89,7 @@
 
     function UbahData(x) {
       data = {
-        id_item: x
+        id: x
       }
       AjaxSend("Ubah_Data", data)
     }

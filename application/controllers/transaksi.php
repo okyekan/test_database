@@ -8,6 +8,8 @@ class transaksi extends CI_Controller
         parent::__construct();
         $this->load->model("transaksi_model");
         $this->load->model("log_book_model");
+        $this->load->model("barang_model");
+        $this->load->model("orang_model");
         $this->load->library('form_validation');
         $this->load->library('pdf');
         $this->load->library('excel');
@@ -22,7 +24,33 @@ class transaksi extends CI_Controller
         (null != $this->input->post('offset')) ? $offset = $this->input->post('offset') : $offset = 0;
         (null != $this->input->post('limit')) ? $limit = $this->input->post('limit') : $limit = 5;
         $data['limit'] = $limit;
-        $data['all_data'] = $this->transaksi_model->TampilData($limit, $offset);
+        $getdata = $this->transaksi_model->TampilData($limit, $offset);
+        $data['all_data'] = array();
+        $tempid = ''; $span = 0; $total = 0;
+        foreach ($getdata as $x){
+            $span--;
+            if ($tempid != $x->kode) {
+                $total = 0;
+                $span = $this->transaksi_model->CountTrans($x->kode, $limit, $offset)->kode;
+                $trans = $this->transaksi_model->AmbilData($x->kode);
+                $tempid = $x->kode;
+                foreach ($trans as $i)
+                {
+                    $total += ($this->barang_model->AmbilData($i->id_barang,'harga')->harga * $i->jumlah);
+                }
+            }
+            $temp = array(
+                'pembelian'=> ($span),
+                'kode_transaksi'=> $x->kode,
+                'waktu'=> $x->waktu,
+                'nama_customer'=> $this->orang_model->AmbilData($x->id_customer,'nama')->nama,
+                'nama_barang'=> $this->barang_model->AmbilData($x->id_barang,'nama')->nama,
+                'qty'=> $x->jumlah,
+                'harga'=> $this->barang_model->AmbilData($x->id_barang,'harga')->harga,
+                'total'=> $total
+            );
+            array_push($data['all_data'],$temp);
+        }
         $data['pagination'] = GeneratePagination($this->transaksi_model->CountData(), $limit, $offset);
         $this->load->view("tabel_transaksi", $data);
     }
@@ -63,24 +91,33 @@ class transaksi extends CI_Controller
     public function Simpan_Data()
     {
         $id = KodeGen($this->transaksi_model->OldID());
-        $inputdata = array(
-            "id_transaksi" => $id,
-            "waktu" => $this->input->post('waktu'),
-            "akun" => $this->input->post('akun'),
-            "jumlah" => $this->input->post('jumlah')
-        );
-        $success = $this->transaksi_model->save($inputdata);
-        $inputdata = (array) $this->transaksi_model->AmbilData($id);
-        if ($success) {
-            $dataArray = array(
-                "akun" => 'Default',
-                "jenis" => 'Create',
-                "tabel" => 'Transaksi',
-                "awal" => '_',
-                "akhir" => implode(';', $inputdata)
+        $post = $this->input->post('str');
+        $no = 0;
+        $success = 0;
+        foreach (explode('; ',$post) as $arr){
+            $val = explode('/',$arr);
+            $data = array(
+                'kode' => $id,
+                'id_customer' => $val[0],
+                'id_barang' => $val[1],
+                'jumlah' => $val[2]
             );
-            $this->log_book_model->save($dataArray);
+            var_dump($data);
+            $scs = $this->transaksi_model->save($data);
+            if ($scs){$success++;}
+            $no++;
         }
+        // $inputdata = $this->transaksi_model->AmbilData($id);
+        // if ($scs == $no){
+        //     $dataArray = array(
+        //         "akun" => 'Default',
+        //         "jenis" => 'Create',
+        //         "tabel" => 'Transaksi',
+        //         "awal" => '_',
+        //         "akhir" => implode(';', $inputdata)
+        //     );
+        //     $this->log_book_model->save($dataArray);
+        // }
     }
     public function Edit_Data()
     {
