@@ -40,7 +40,7 @@ class barang extends CI_Controller
     public function Ubah_Data()
     {
         $data['aksi'] = "Ubah";
-        $data['row'] = $this->barang_model->AmbilData($this->input->post('id_item'));
+        $data['row'] = $this->barang_model->AmbilData($this->input->post('id'));
         $this->load->view("pop_up_barang", $data);
     }
     public function Tambah_Data()
@@ -71,12 +71,12 @@ class barang extends CI_Controller
         $id = $this->input->post('id_item');
         $oldData = (array) $this->barang_model->AmbilData($id);
         $inputdata = array(
-            "id_item" => $id,
+            "id" => $id,
             "nama" => $this->input->post('nama_barang'),
             "harga" => $this->input->post('harga'),
             "stok" => $this->input->post('stok')
         );
-        $success = $this->barang_model->GantiData($inputdata, $id);
+        $success = $this->barang_model->Update(['id'=>$id], $inputdata);
         if ($success) {
             $dataArray = array(
                 "akun" => 'Default',

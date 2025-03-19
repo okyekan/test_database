@@ -72,7 +72,7 @@ class orang extends CI_Controller
             "jenis_kelamin" => $this->input->post('jenis_kelamin'),
             "alamat" => $this->input->post('alamat')
         );
-        $success = $this->orang_model->GantiData($inputdata, $id);
+        $success = $this->orang_model->Update(['id'=>$id],$inputdata);
 
         if ($success) {
             $dataArray = array(

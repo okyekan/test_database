@@ -8,11 +8,11 @@
             </div>
             <div class="modal-body">
                 <form name="input_form" method="post" action="" onsubmit="return false">
-                    <input type="hidden" id="id" name="id" value="<?php if (isset($row->kode)) echo $row->kode; ?>"></input>
+                    <input type="hidden" id="id" name="id" value="<?php if (isset($row[0]->kode)) echo $row[0]->kode; ?>"></input>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label" for="nama">Nama Customer</label>
                         <div class="col-sm-10">
-                            <input required class="form-control" type="text" id="nama" name="nama" value="<?php if (isset($row->customer)) echo $row->customer; ?>"></input>
+                            <input required class="form-control" type="text" id="nama" name="nama" value="<?php if (isset($row[0]->id_customer)) echo $row[0]->id_customer; ?>"></input>
                             <p id="alert_nama" style="color:red;"></p>
                         </div>
                     </div>
@@ -40,13 +40,7 @@
                                         <th></th>
                                         <p id="warn" style="color:red"></p>
                                     </tr>
-                                    <!-- <tr>
-                                        <td><input name="item-list" type="text" class="form-control"></td>
-                                        <td><input name="qty-list" type="text" class="form-control"></td>
-                                        <td><input name="harga-list" type="text" class="form-control" readonly></td>
-                                        <td><input name="total-list" type="text" class="form-control" readonly></td>
-                                        <td><button name="removeCart" class="btn btn-danger" type="button">-</button></td>
-                                    </tr> -->
+
                                     <tr id="cartPrice" style="display:none">
                                         <td>Total harga</td>
                                         <td></td>
@@ -82,6 +76,19 @@
 </div>
 
 <script>
+    var row = [<?php if (isset($row)) {
+                    echo json_encode($row);
+                } ?>];
+    if (row.length != 0) {
+        console.log('true')
+        row[0].forEach(function(x, idx) {
+            console.log(x)
+            CreateRow(x)
+        })
+    } else {
+        console.log('false')
+    }
+
     function GetTable() {
         var arr = []
         var table = []
@@ -93,8 +100,11 @@
         // })
         $("tr", "#cart").each(function(idx) {
             arr.push($(this))
-            $(":input", this).each(function(attr) {
+            $(":input", this).each(function() {
                 arr[idx].push($(this).val())
+                if ($(this).attr("name") == 'qty-list') {
+                    arr[idx].push($(this).attr("max"))
+                }
             })
         })
         arr.shift()
@@ -104,11 +114,13 @@
                 table[idx] = {
                     id_barang: x[1],
                     qty: parseInt(x[4]),
-                    harga: parseInt(x[5]),
-                    total: parseInt(x[6])
+                    harga: parseInt(x[6]),
+                    total: parseInt(x[7]),
+                    stok: parseInt(x[5])
                 }
             })
         }
+        console.log(table)
         return table
     }
 
@@ -137,15 +149,23 @@
         }
     }
 
-    function CreateRow() {
+    function CreateRow(data = '') {
         $('#warn').html("")
         var table = document.getElementById('cart')
         row = table.insertRow(1)
-        row.insertCell(0).innerHTML = '<input required style="width:150px" name="item-list" type="text" class="form-control" value="' + $('#barang').val() + '">'
-        row.insertCell(1).innerHTML = '<input required name="qty-list" type="number" min="1" max="' + $('#qty').attr('max') + '" class="form-control" value="' + $('#qty').val() + '"><br><p name="warning"></p>'
-        row.insertCell(2).innerHTML = '<input name="harga-list" align="right" type="text" class="form-control text-right" value="' + $('#harga').val() + '" readonly>'
-        row.insertCell(3).innerHTML = '<input name="total-list" align="right" type="text" class="form-control text-right" value="' + $('#total').val() + '" readonly>'
-        row.insertCell(4).innerHTML = '<input name="index-list" type="hidden" value=""><button name="removeCart" class="btn btn-danger" type="button">-</button>'
+        if (data == '') {
+            row.insertCell(0).innerHTML = '<input required style="width:150px" name="item-list" type="text" class="form-control" value="' + $('#barang').val() + '">'
+            row.insertCell(1).innerHTML = '<input required name="qty-list" type="number" min="1" max="' + $('#qty').attr('max') + '" class="form-control" value="' + $('#qty').val() + '"></p>'
+            row.insertCell(2).innerHTML = '<input name="harga-list" align="right" type="text" class="form-control text-right" value="' + $('#harga').val() + '" readonly>'
+            row.insertCell(3).innerHTML = '<input name="total-list" align="right" type="text" class="form-control text-right" value="' + $('#total').val() + '" readonly>'
+            row.insertCell(4).innerHTML = '<input name="index-list" type="hidden" value=""><button name="removeCart" class="btn btn-danger" type="button">-</button>'
+        } else {
+            row.insertCell(0).innerHTML = '<input required style="width:150px" name="item-list" type="text" class="form-control" value="' + data['id_barang'] + '">'
+            row.insertCell(1).innerHTML = '<input required name="qty-list" type="number" min="1" max="' + data['stok'] + '" class="form-control" value="' + data['jumlah'] + '"></p>'
+            row.insertCell(2).innerHTML = '<input name="harga-list" align="right" type="text" class="form-control text-right" value="' + data['harga'] + '" readonly>'
+            row.insertCell(3).innerHTML = '<input name="total-list" align="right" type="text" class="form-control text-right" value="' + data['jumlah'] * data['harga'] + '" readonly>'
+            row.insertCell(4).innerHTML = '<input name="index-list" type="hidden" value=""><button name="removeCart" class="btn btn-danger" type="button">-</button>'
+        }
         var cg = $(":text[name='item-list']:first")
         cg.combogrid({
             delay: 500,
@@ -154,7 +174,7 @@
             url: 'barang/Table',
             idField: 'id',
             textField: 'nama',
-            value: $('#barang').val(),
+            value: data['id_barang'],
             columns: [
                 [{
                         field: 'kode',
@@ -185,7 +205,7 @@
 
                 cgHarga.val(harga)
                 cgQty.attr("max", val['stok'])
-                cgQty.val(Math.min(cgQty.val(), val['stok']))
+                cgQty.val(Math.min(1, val['stok']))
 
                 UpdateTable(row.children("td").children(":text:first").val(), 'U', row.index())
                 Check2(row)
@@ -255,7 +275,6 @@
         var qty = par.children("td").children(":input[name='qty-list']")
         var harga = par.children("td").children(":text[name='harga-list']")
         var total = par.children("td").children(":text[name='total-list']")
-        var arr = []
         var newTotal = harga.val() * qty.val()
         total.val(newTotal)
         UpdatePrice()
@@ -285,6 +304,7 @@
         $('#addToCart').click(function() {
             if ($('#harga').val() > 0 && parseInt($('#qty').val()) <= parseInt($('#qty').attr('max'))) {
                 UpdateTable($('#barang').val(), 'C')
+                $('#qty').val(1)
             }
         })
         $('#nama').combogrid({
@@ -315,6 +335,9 @@
                 ]
             ],
             fitColumns: true,
+            onSelect: function(index, row) {
+                $("#alert_nama").html('')
+            }
         });
 
         $("#barang").combogrid({
@@ -349,6 +372,7 @@
             onSelect: function(index, row) {
                 var harga = row['harga']
                 document.getElementById('harga').value = harga
+                document.getElementById('qty').value = Math.min(1, row['stok'])
                 $("#qty").attr("max", row['stok'])
                 Check()
             }
@@ -357,27 +381,47 @@
 
     function Validasi() {
         var table = GetTable()
+        var tru = 0
         if ($('#nama').val() == '') {
             $('#alert_nama').html("Nama mohon diisi")
         } else if (table == undefined || table == '') {
             $('#warn').html("Daftar item mohon diisi")
         } else {
-            KirimData('Simpan', table)
+            table.forEach(function(x, i) {
+                if (x['id_barang'] == '' || x['total'] <= 0 || x['qty'] > x['stok']) {
+
+                } else {
+                    tru++
+                }
+            })
+        }
+
+        if (tru != table.length) {
+            $('#warn').html("Isian ada yang salah")
+
+        } else {
+            ("<?php echo $aksi ?>" == "Tambah") ? KirimData("Simpan", table): KirimData("Edit", table)
         }
     }
 
     function KirimData(send, table) {
         var nama = $('#nama').val()
+        var id = $('#id').val()
         var data = []
+        if (send == 'Edit') {
+            data.push(id)
+        }
         table.forEach(function(x, idx) {
-            data.push(nama+"/"+x['id_barang']+"/"+x['qty'])
+            data.push(nama + "/" + x['id_barang'] + "/" + x['qty'])
         })
         var str = data.join('; ')
         console.log(data)
         $.ajax({
             url: "<?php echo base_url() . 'transaksi/' ?>" + send + "_Data",
             type: "POST",
-            data: {str:str},
+            data: {
+                str: str
+            },
             success: function() {
                 // document.getElementById("success_notif").innerHTML = "Data Terkirim"
                 setTimeout(PopSuccess(), 3000)

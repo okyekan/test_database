@@ -42,7 +42,8 @@
                 <th>Total Transaksi</th>
                 <th>Aksi</th>
             </tr>
-            <?php $span = '';$total = 0;
+            <?php $span = '';
+            $total = 0;
             foreach ($all_data as $show): ?>
                 <tr style="background-color:rgb(228, 241, 248)">
                     <?php if ($span != $show['kode_transaksi']) {
@@ -69,17 +70,18 @@
                     <?php
                     if ($span != $show['kode_transaksi']) {
                         echo "<td rowspan='" . $show['pembelian'] . "'><div style='display:flex;justify-content:space-between'><p>Rp.</p><p>" . number_format(($show['total']), 2, ",", ".") . "</p></div></td>";
-                    } ?>
-                    <td>
+
+                        echo "<td rowspan='" . $show['pembelian'] . "'>"; ?>
                         <button type="button" class="span6 btn btn-warning" style="border: 2px solid black"
                             onclick="UbahData('<?php echo $show['kode_transaksi']; ?>')">Ubah
                         </button>
                         <button type="button" class="span6 btn btn-danger" style="border: 2px solid black"
                             onclick="HapusData('<?php echo $show['kode_transaksi']; ?>')">Hapus
                         </button>
-                    </td>
+                    <?php echo "</td>";
+                    } ?>
                 </tr>
-                <?php $span = $show['kode_transaksi'];
+            <?php $span = $show['kode_transaksi'];
             endforeach; ?>
         </table>
     </div>
@@ -88,7 +90,7 @@
         function HapusData(x) {
             if (confirm("Apakah anda yakin untuk menghapus data " + x + "?")) {
                 data = {
-                    id_transaksi: x
+                    kode: x
                 }
                 AjaxSend("Hapus", data)
             } else {
@@ -122,7 +124,7 @@
                     $('#pop_up_form').html(xdata);
                     $('#myModalInput').modal()
                     if (url == "Hapus") {
-                        location.reload()
+                        //location.reload()
                     }
                 }
             })

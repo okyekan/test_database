@@ -58,13 +58,13 @@ class barang_model extends CI_Model
         return $this->db->order_by("id", "desc")->limit($limit, $offset)->get('barang')->result();
     }
     public function UnionSearch($kw){
-        $this->db->like('kode',$kw)->get('barang');
+        $this->db->like('kode',$kw)->where('stok >',0)->get('barang');
         $q1 = $this->db->last_query();
-        $this->db->like('nama', $kw)->get('barang');
+        $this->db->like('nama', $kw)->where('stok >', 0)->get('barang');
         $q2 = $this->db->last_query();
-        $this->db->like('harga', $kw)->get('barang');
+        $this->db->like('harga', $kw)->where('stok >', 0)->get('barang');
         $q3 = $this->db->last_query();
-        $this->db->like('stok', $kw)->get('barang');
+        $this->db->like('stok', $kw)->where('stok >', 0)->get('barang');
         $q4 = $this->db->last_query();
         $query = $this->db->query($q1 . " UNION " . $q2 . " UNION " . $q3 . " UNION " . $q4 . " ORDER BY id DESC");
         return $query->result();
@@ -73,10 +73,12 @@ class barang_model extends CI_Model
     {
         return $this->db->delete('barang', $id);
     }
-    public function GantiData($data, $id)
+    public function Update($filter, $data)
     {
-        $this->db->where('id', $id);
-        return $this->db->update('barang', $data);
+        $this->db->where($filter);
+        $this->db->set($data,'',FALSE);
+        $this->db->update('barang');
+        return $this->db->last_query();
     }
     // public function save($ambilData)
     // {

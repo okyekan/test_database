@@ -58,6 +58,10 @@ class transaksi extends CI_Controller
     {
         $data['aksi'] = "Ubah";
         $data['row'] = $this->transaksi_model->AmbilData($this->input->post('id_transaksi'));
+        foreach ($data['row'] as $r){
+            $r->harga = $this->barang_model->AmbilData($r->id_barang, 'harga')->harga;
+            $r->stok = $this->barang_model->AmbilData($r->id_barang, 'stok')->stok;
+        }
         $this->load->view("pop_up_transaksi", $data);
     }
     public function Tambah_Data()
@@ -73,20 +77,11 @@ class transaksi extends CI_Controller
     public function Hapus()
     {
         $id = $this->input->post();
-        $id2 = $this->input->post('id_transaksi');
-        $oldData = (array) $this->transaksi_model->AmbilData($id2);
-        $success = $this->transaksi_model->delete($id);
-
-        if ($success) {
-            $dataArray = array(
-                "akun" => 'Default',
-                "jenis" => 'Delete',
-                "tabel" => 'Transaksi',
-                "awal" => implode(';', $oldData),
-                "akhir" => '_'
-            );
-            $this->log_book_model->save($dataArray);
+        $get = $this->transaksi_model->AmbilData($id['kode']);
+        foreach ($get as $g){
+            $this->barang_model->Update(['id' => $g->id_barang], array('stok' => 'stok + ' . (int)$g->jumlah));
         }
+        $this->transaksi_model->delete($id);
     }
     public function Simpan_Data()
     {
@@ -102,8 +97,8 @@ class transaksi extends CI_Controller
                 'id_barang' => $val[1],
                 'jumlah' => $val[2]
             );
-            var_dump($data);
             $scs = $this->transaksi_model->save($data);
+            $this->barang_model->Update(['id'=>$val[1]],array('stok' => 'stok - '.(int)$val[2]));
             if ($scs){$success++;}
             $no++;
         }
@@ -121,25 +116,38 @@ class transaksi extends CI_Controller
     }
     public function Edit_Data()
     {
-        $id = $this->input->post('id_transaksi');
-        $oldData = (array) $this->transaksi_model->AmbilData($id);
-        $inputdata = array(
-            "id_transaksi" => $id,
-            "waktu" => $this->input->post('waktu'),
-            "akun" => $this->input->post('akun'),
-            "jumlah" => $this->input->post('jumlah')
-        );
-        $success = $this->transaksi_model->GantiData($inputdata, $id);
-
-        if ($success) {
-            $dataArray = array(
-                "akun" => 'Default',
-                "jenis" => 'Update',
-                "tabel" => 'Transaksi',
-                "awal" => implode(';', $oldData),
-                "akhir" => implode(';', $inputdata)
+        $post = $this->input->post('str');
+        $no = 0;
+        $success = 0;
+        $datapool = explode('; ', $post);
+        $id = array_shift($datapool);
+        $waktu = $this->transaksi_model->AmbilData($id)[0]->waktu;
+        //update stok
+        $get = $this->transaksi_model->AmbilData($id);
+        foreach ($get as $g) {
+            $this->barang_model->Update(['id' => $g->id_barang], array('stok' => 'stok + ' . (int)$g->jumlah));
+        }
+        //
+        $this->transaksi_model->delete(['kode' => $id]);
+        var_dump($waktu);
+        foreach ($datapool as $arr) {
+            $val = explode('/', $arr);
+            $data = array(
+                'kode' => $id,
+                'id_customer' => $val[0],
+                'id_barang' => $val[1],
+                'jumlah' => $val[2],
+                'waktu' => $waktu
             );
-            $this->log_book_model->save($dataArray);
+            var_dump($data);
+            $scs = $this->transaksi_model->save($data);
+            //update stok
+            $this->barang_model->Update(['id' => $val[1]], array('stok' => 'stok - ' . (int)$val[2]));
+            //
+            if ($scs) {
+                $success++;
+            }
+            $no++;
         }
     }
     public function CetakPDF($tgl1 = '',$tgl2 = '',$nomor = '')

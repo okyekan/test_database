@@ -38,7 +38,7 @@ class transaksi_model extends CI_Model
             $nomor = $filter['nomor'];
             $this->db->like('kode', $nomor);
         }
-        $query = $this->db->order_by("waktu", "desc")->limit($limit, $offset)->get('transaksi')->result();
+        $query = $this->db->order_by("waktu", "desc")->order_by("jumlah","desc")->limit($limit, $offset)->get('transaksi')->result();
         return $query;
     }
     public function GantiData($data, $id)
@@ -58,7 +58,9 @@ class transaksi_model extends CI_Model
     public function save($data)
     {
         date_default_timezone_set("Asia/Jakarta");
-        $data['waktu'] = date('YmdHis');
+        if (!isset($data['waktu'])){
+            $data['waktu'] = date('YmdHis');
+        }
         return $this->db->insert('transaksi', $data);
     }
 }

@@ -55,9 +55,9 @@ class orang_model extends CI_Model
     {
         return $this->db->delete('orang',$id);
     }
-    public function GantiData($data,$id)
+    public function Update($filter,$data)
     {
-        $this->db->where('id', $id);
+        $this->db->where($filter);
         return $this->db->update('orang', $data);
     }
     // public function save($ambilData)
