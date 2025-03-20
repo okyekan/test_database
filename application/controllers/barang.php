@@ -71,12 +71,11 @@ class barang extends CI_Controller
         $id = $this->input->post('id_item');
         $oldData = (array) $this->barang_model->AmbilData($id);
         $inputdata = array(
-            "id" => $id,
             "nama" => $this->input->post('nama_barang'),
             "harga" => $this->input->post('harga'),
             "stok" => $this->input->post('stok')
         );
-        $success = $this->barang_model->Update(['id'=>$id], $inputdata);
+        $success = $this->barang_model->Update(['id'=>$id], $inputdata, TRUE);
         if ($success) {
             $dataArray = array(
                 "akun" => 'Default',
@@ -135,6 +134,7 @@ class barang extends CI_Controller
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0);
+        $pdf->Cell(30, 6, 'Kode', 1, 0);
         $pdf->Cell(50, 6, 'Nama', 1, 0);
         $pdf->Cell(50, 6, 'Harga', 1, 0);
         $pdf->Cell(15, 6, 'Stok', 1, 1);
@@ -143,7 +143,8 @@ class barang extends CI_Controller
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);
-            $pdf->Cell(50, 6, $data->nama_barang, 1, 0);
+            $pdf->Cell(30, 6, $data->kode, 1, 0);
+            $pdf->Cell(50, 6, $data->nama, 1, 0);
             $pdf->Cell(50, 6, $data->harga, 1, 0);
             $pdf->Cell(15, 6, $data->stok, 1, 1);
             $no++;
@@ -169,21 +170,23 @@ class barang extends CI_Controller
         $exl->setActiveSheetIndex(0)
             ->setCellValue('A1','Data Barang')
             ->setCellValue('A2','No')
-            ->setCellValue('B2','Nama')
-            ->setCellValue('C2','Harga')
-            ->setCellValue('D2','Stok')
-            ->getStyle('A2:D2')->getFont()->setBold(true);
+            ->setCellValue('B2','Kode')
+            ->setCellValue('C2','Nama')
+            ->setCellValue('D2','Harga')
+            ->setCellValue('E2','Stok')
+            ->getStyle('A2:E2')->getFont()->setBold(true);
         $datapoll = $this->barang_model->TampilData(1000, 0, $filter);
-        $no = 1;
+        $no = 3;
         foreach ($datapoll as $data) {
             $exl->setActiveSheetIndex(0)
-            ->setCellValue('A'.($no+2),$no)
-            ->setCellValue('B'.($no+2),$data->nama_barang)
-            ->setCellValue('C'.($no+2),$data->harga)
-            ->setCellValue('D'.($no+2),$data->stok);
+            ->setCellValue('A'.$no,($no-2))
+            ->setCellValue('B'.$no,$data->kode)
+            ->setCellValue('C'.$no,$data->nama)
+            ->setCellValue('D'.$no,$data->harga)
+            ->setCellValue('E'.$no,$data->stok);
             $no++;
         }
-        for ($col = 'A'; $col !== 'E'; $col++) {
+        for ($col = 'A'; $col !== 'F'; $col++) {
             $exl->getActiveSheet()
                 ->getColumnDimension($col)
                 ->setAutoSize(true);

@@ -31,7 +31,7 @@ class transaksi extends CI_Controller
             $span--;
             if ($tempid != $x->kode) {
                 $total = 0;
-                $span = $this->transaksi_model->CountTrans($x->kode, $limit, $offset)->kode;
+                $span = $this->transaksi_model->CountTrans($x->kode, $limit, $offset)->jumlah;
                 $trans = $this->transaksi_model->AmbilData($x->kode);
                 $tempid = $x->kode;
                 foreach ($trans as $i)
@@ -166,18 +166,57 @@ class transaksi extends CI_Controller
         $pdf->Cell(10, 6, 'No', 1, 0);
         $pdf->Cell(30, 6, 'No. Transaksi',1,0);
         $pdf->Cell(40, 6, 'Waktu', 1, 0);
-        $pdf->Cell(50, 6, 'Akun', 1, 0);
-        $pdf->Cell(50, 6, 'Jumlah', 1, 1);
+        $pdf->Cell(50, 6, 'Customer', 1, 0);
+        $pdf->Cell(40, 6, 'Item', 1, 0);
+        $pdf->Cell(10, 6, 'Qty', 1, 0);
+        $pdf->Cell(30, 6, 'Harga Satuan', 1, 0);
+        $pdf->Cell(30, 6, 'Total Harga', 1, 0);
+        $pdf->Cell(30, 6, 'Total Transaksi', 1, 1);
         $pdf->SetFont('Arial', '', 10);
-        $datapoll = $this->transaksi_model->TampilData(1000,0,$filter);
-        $no = 1;
-        foreach ($datapoll as $data) {
-            $pdf->Cell(10, 6, $no, 1, 0);
-            $pdf->Cell(30, 6, $data->id_transaksi, 1, 0);
-            $pdf->Cell(40, 6, $data->waktu, 1, 0);
-            $pdf->Cell(50, 6, $data->akun, 1, 0);
-            $pdf->Cell(50, 6, $data->jumlah, 1, 1);
-            $no++;
+        $datapoll = $this->transaksi_model->TampilData(10000,0,$filter);
+        $no = 1;$limit = 26;
+        $tempid = '';$span = 0;$total = 0;
+        foreach ($datapoll as $x) {
+            ($limit == 0)?$limit = 29:'';
+            $span--;
+            if ($tempid != $x->kode) {
+                $total = 0;
+                $span = $this->transaksi_model->CountTrans($x->kode)->jumlah;
+                ($limit > 1)?$border = 'LTR':$border = 1;
+                $trans = $this->transaksi_model->AmbilData($x->kode);
+                $tempid = $x->kode;
+                foreach ($trans as $i) {
+                    $total += ($this->barang_model->AmbilData($i->id_barang, 'harga')->harga * $i->jumlah);
+                }
+            }
+            else {
+                ($span > 1)? $border = 'LR': $border = 'LBR';
+            }
+            $data = [
+                'kode_transaksi'=> $x->kode,
+                'waktu'=> $x->waktu,
+                'customer'=> $this->orang_model->AmbilData($x->id_customer,'nama')->nama,
+                'item'=> $this->barang_model->AmbilData($x->id_barang,'nama')->nama,
+                'qty'=> $x->jumlah,
+                'harga'=> $this->barang_model->AmbilData($x->id_barang,'harga')->harga,
+                'total'=> $total
+            ];
+            if ($span > $limit)
+            {
+                $pdf->AddPage('L', 'A4');
+                $limit = 29;
+            }
+            $pdf->Cell(10, 6, ($border == 'LTR'||$border == 1)?$no:'', $border, 0);
+            $pdf->Cell(30, 6, ($border == 'LTR'||$border == 1)?$data['kode_transaksi']:'', $border, 0);
+            $pdf->Cell(40, 6, ($border == 'LTR'||$border == 1)?$data['waktu']:'', $border, 0);
+            $pdf->Cell(50, 6, ($border == 'LTR'||$border == 1)?$data['customer']:'', $border, 0);
+            $pdf->Cell(40, 6, $data['item'], 1, 0);
+            $pdf->Cell(10, 6, $data['qty'], 1, 0);
+            $pdf->Cell(30, 6, $data['harga'], 1, 0);
+            $pdf->Cell(30, 6, ($data['harga']*$data['qty']), 1, 0);
+            $pdf->Cell(30, 6, ($border == 'LTR'||$border == 1)?$data['total']:'', $border, 1);
+            ($border == 'LTR'||$border == 1)?$no++:'';
+            $limit--;
         }
         $pdf->Output();
     }
@@ -188,33 +227,81 @@ class transaksi extends CI_Controller
             "tgl2" => $tgl2,
             "nomor" => $nomor
         );
-        $exl = new PHPExcel();
-        $exl->setActiveSheetIndex(0)->mergeCells('A1:E1');
-        $exl->setActiveSheetIndex(0)
-            ->setCellValue('A1','Data Transaksi')
+        $ex = new PHPExcel();
+        $ex->setActiveSheetIndex(0);
+        $exl = $ex->getActiveSheet();
+        $exl->mergeCells('A1:I1');
+        $exl->setCellValue('A1','Data Transaksi')
             ->setCellValue('A2','No')
             ->setCellValue('B2','No. Transaksi')
             ->setCellValue('C2','Waktu')
-            ->setCellValue('D2','Akun')
-            ->setCellValue('E2','Jumlah')
-            ->getStyle('A2:E2')->getFont()->setBold(true);
+            ->setCellValue('D2','Customer')
+            ->setCellValue('E2','Item')
+            ->setCellValue('F2', 'Qty')
+            ->setCellValue('G2', 'Harga Satuan')
+            ->setCellValue('H2', 'Total Harga')
+            ->setCellValue('I2', 'Total Transaksi')
+            ->getStyle('A2:I2')->getFont()->setBold(true);
         $datapoll = $this->transaksi_model->TampilData(1000, 0, $filter);
-        $no = 1;
-        foreach ($datapoll as $data) {
-            $exl->setActiveSheetIndex(0)
-                ->setCellValue('A'.($no+2),$no)
-                ->setCellValue('B'.($no+2),$data->id_transaksi)
-                ->setCellValue('C'.($no+2),$data->waktu)
-                ->setCellValue('D'.($no+2),$data->akun)
-                ->setCellValue('E'.($no+2),$data->jumlah);
+        $exl->getStyle('A3:I'.(count($datapoll)+2))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_TOP);
+        $no = 3; $num = 0;
+        $tempid = '';
+        $total = 0;
+        $skip = [];
+        foreach ($datapoll as $x) {
+            if ($tempid != $x->kode) {
+                $num++;
+                $span = $this->transaksi_model->CountTrans($x->kode)->jumlah;
+                array_push($skip,$span);
+                $trans = $this->transaksi_model->AmbilData($x->kode);
+                $tempid = $x->kode;
+                foreach ($trans as $i) {
+                    $total += ($this->barang_model->AmbilData($i->id_barang, 'harga')->harga * $i->jumlah);
+                }
+            }
+            $data = [
+                'kode_transaksi' => $x->kode,
+                'waktu' => $x->waktu,
+                'customer' => $this->orang_model->AmbilData($x->id_customer, 'nama')->nama,
+                'item' => $this->barang_model->AmbilData($x->id_barang, 'nama')->nama,
+                'qty' => $x->jumlah,
+                'harga' => $this->barang_model->AmbilData($x->id_barang, 'harga')->harga,
+                'total' => $total
+            ];
+            $exl->setCellValue('A'.$no,($total != 0)?$num:'')
+                ->setCellValue('B'.$no,($total != 0)?$data['kode_transaksi']:'')
+                ->setCellValue('C'.$no,($total != 0)?$data['waktu']:'')
+                ->setCellValue('D'.$no,($total != 0)?$data['customer']:'')
+                ->setCellValue('E'.$no,$data['item'])
+                ->setCellValue('F'.$no,$data['qty'])
+                ->setCellValue('G'.$no,$data['harga'])
+                ->setCellValue('H'.$no,($data['qty']*$data['harga']))
+                ->setCellValue('I'.$no,($total != 0)?$data['total']:'');
             $no++;
+            $total = 0;
         }
-        for ($col = 'A'; $col !== 'F'; $col++) {
-            $exl->getActiveSheet()
-                ->getColumnDimension($col)
+        for ($col = 'A'; $col !== 'J'; $col++) {
+            $exl->getColumnDimension($col)
                 ->setAutoSize(true);
         }
-        $file = PHPExcel_IOFactory::createWriter($exl, 'Excel2007');
+        $exl->calculateColumnWidths(true);
+        for ($col = 'A'; $col !== 'J'; $col++) {
+            $exl->getColumnDimension($col)
+                ->setAutoSize(false);
+        }
+        $no = 3;
+        foreach ($skip as $skp)
+        {
+            if ($skp > 1) {
+                $exl->mergeCells('A' . $no . ':A' . ($no + ($skp - 1)))
+                    ->mergeCells('B' . $no . ':B' . ($no + ($skp - 1)))
+                    ->mergeCells('C' . $no . ':C' . ($no + ($skp - 1)))
+                    ->mergeCells('D' . $no . ':D' . ($no + ($skp - 1)))
+                    ->mergeCells('I' . $no . ':I' . ($no + ($skp - 1)));
+            }
+            $no += $skp;
+        }
+        $file = PHPExcel_IOFactory::createWriter($ex, 'Excel2007');
         ob_end_clean();
         header('Content-type: application/vnd.ms-excel');
         header('Content-Disposition: attachment; filename="Data Transaksi.xlsx"');

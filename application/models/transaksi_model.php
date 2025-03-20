@@ -17,7 +17,7 @@ class transaksi_model extends CI_Model
         $query1 = $this->db->last_query();
         $this->db->where("kode", $id)->get('transaksi');
         $query2 = $this->db->last_query();
-        $join = $this->db->query("SELECT COUNT('id') as 'kode' FROM (".$query1.") AS q1 ,(".$query2.") AS q2 WHERE q1.id = q2.id");
+        $join = $this->db->query("SELECT COUNT('id') as 'jumlah' FROM (".$query1.") AS q1 ,(".$query2.") AS q2 WHERE q1.id = q2.id");
         return $join->result()[0];
     }
     public function TampilData($limit = 5, $offset = 0, $filter = array("tgl1"=>'',"tgl2"=>'',"nomor"=>''))

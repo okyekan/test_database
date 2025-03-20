@@ -134,6 +134,7 @@ class orang extends CI_Controller
         $pdf->Cell(10, 7, '', 0, 1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->Cell(10, 6, 'No', 1, 0);
+        $pdf->Cell(30, 6, 'Kode', 1, 0);
         $pdf->Cell(50, 6, 'Nama', 1, 0);
         $pdf->Cell(15, 6, 'Umur', 1, 0);
         $pdf->Cell(30, 6, 'Jenis Kelamin', 1, 0);
@@ -143,6 +144,7 @@ class orang extends CI_Controller
         $no = 1;
         foreach ($datapoll as $data) {
             $pdf->Cell(10, 6, $no, 1, 0);
+            $pdf->Cell(30, 6, $data->kode, 1, 0);
             $pdf->Cell(50, 6, $data->nama, 1, 0);
             $pdf->Cell(15, 6, $data->umur, 1, 0);
             $pdf->Cell(30, 6, $data->jenis_kelamin, 1, 0);
@@ -170,23 +172,25 @@ class orang extends CI_Controller
         $exl->setActiveSheetIndex(0)
             ->setCellValue('A1', 'Data Orang')
             ->setCellValue('A2', 'No')
-            ->setCellValue('B2', 'Nama')
-            ->setCellValue('C2', 'Umur')
-            ->setCellValue('D2', 'Jenis Kelamin')
-            ->setCellValue('E2', 'Alamat')
-            ->getStyle('A2:E2')->getFont()->setBold(true);
+            ->setCellValue('B2', 'Kode')
+            ->setCellValue('C2', 'Nama')
+            ->setCellValue('D2', 'Umur')
+            ->setCellValue('E2', 'Jenis Kelamin')
+            ->setCellValue('F2', 'Alamat')
+            ->getStyle('A2:F2')->getFont()->setBold(true);
         $datapoll = $this->orang_model->TampilData(1000, 0, $filter);
         $no = 1;
         foreach ($datapoll as $data) {
             $exl->setActiveSheetIndex(0)
                 ->setCellValue('A'.($no+2),$no)
-                ->setCellValue('B'.($no+2),$data->nama)
-                ->setCellValue('C'.($no+2),$data->umur)
-                ->setCellValue('D'.($no+2),$data->jenis_kelamin)
-                ->setCellValue('E'.($no+2),$data->alamat);
+                ->setCellValue('B'.($no+2),$data->kode)
+                ->setCellValue('C'.($no+2),$data->nama)
+                ->setCellValue('D'.($no+2),$data->umur)
+                ->setCellValue('E'.($no+2),$data->jenis_kelamin)
+                ->setCellValue('F'.($no+2),$data->alamat);
             $no++;
         }
-        for ($col = 'A'; $col !== 'F'; $col++) {
+        for ($col = 'A'; $col !== 'G'; $col++) {
             $exl->getActiveSheet()
             ->getColumnDimension($col)
             ->setAutoSize(true);

@@ -74,7 +74,7 @@
     function HapusData(x, y) {
       if (confirm("Apakah anda yakin untuk menghapus data " + y + "?")) {
         data = {
-          id_item: x
+          id: x
         }
         AjaxSend("Hapus", data)
       } else {

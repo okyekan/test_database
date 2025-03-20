@@ -73,10 +73,10 @@ class barang_model extends CI_Model
     {
         return $this->db->delete('barang', $id);
     }
-    public function Update($filter, $data)
+    public function Update($filter, $data, $esc = FALSE)
     {
         $this->db->where($filter);
-        $this->db->set($data,'',FALSE);
+        $this->db->set($data,'',$esc);
         $this->db->update('barang');
         return $this->db->last_query();
     }
