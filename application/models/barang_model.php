@@ -3,12 +3,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class barang_model extends CI_Model
 {
-    public function AmbilData($id,$filter='')
+    public function AmbilData($filter,$column='')
     {
-        if ($filter != ''){
-            $this->db->select($filter);
+        if ($column != ''){
+            $this->db->select($column);
         }
-        return $this->db->get_where('barang', ["id" => $id])->row();
+        return $this->db->get_where('barang', $filter)->row();
     }
     public function CountData()
     {

@@ -32,7 +32,7 @@
     </tr>
     <tr style="background-color:rgba(62, 49, 159, 0.36)">
       <th>
-        <div>Kode Barang</div>
+        <div>Kode</div>
       </th>
       <th>
         <div>Nama Barang</div>

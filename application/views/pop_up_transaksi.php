@@ -12,7 +12,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label" for="nama">Nama Customer</label>
                         <div class="col-sm-10">
-                            <input required class="form-control" type="text" id="nama" name="nama" value="<?php if (isset($row[0]->id_customer)) echo $row[0]->id_customer; ?>"></input>
+                            <input required class="form-control" type="text" id="nama" name="nama" value="<?php if (isset($row[0]->kode_customer)) echo $row[0]->kode_customer; ?>"></input>
                             <p id="alert_nama" style="color:red;"></p>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
         if (arr != '') {
             arr.forEach(function(x, idx) {
                 table[idx] = {
-                    id_barang: x[1],
+                    kode_barang: x[1],
                     qty: parseInt(x[4]),
                     harga: parseInt(x[6]),
                     total: parseInt(x[7]),
@@ -130,7 +130,7 @@
         var index = 0
         console.log(currIndex)
         table.forEach(function(x, idx) {
-            if (id == x['id_barang'] && currIndex != idx + 1) {
+            if (id == x['kode_barang'] && currIndex != idx + 1) {
                 same = true
                 index = idx
             }
@@ -160,7 +160,7 @@
             row.insertCell(3).innerHTML = '<input name="total-list" align="right" type="text" class="form-control text-right" value="' + $('#total').val() + '" readonly>'
             row.insertCell(4).innerHTML = '<input name="index-list" type="hidden" value=""><button name="removeCart" class="btn btn-danger" type="button">-</button>'
         } else {
-            row.insertCell(0).innerHTML = '<input required style="width:150px" name="item-list" type="text" class="form-control" value="' + data['id_barang'] + '">'
+            row.insertCell(0).innerHTML = '<input required style="width:150px" name="item-list" type="text" class="form-control" value="' + data['kode_barang'] + '">'
             row.insertCell(1).innerHTML = '<input required name="qty-list" type="number" min="1" max="' + data['stok'] + '" class="form-control" value="' + data['jumlah'] + '"></p>'
             row.insertCell(2).innerHTML = '<input name="harga-list" align="right" type="text" class="form-control text-right" value="' + data['harga'] + '" readonly>'
             row.insertCell(3).innerHTML = '<input name="total-list" align="right" type="text" class="form-control text-right" value="' + data['jumlah'] * data['harga'] + '" readonly>'
@@ -172,9 +172,9 @@
             panelWidth: 400,
             mode: 'remote',
             url: 'barang/Table',
-            idField: 'id',
+            idField: 'kode',
             textField: 'nama',
-            value: data['id_barang'],
+            value: data['kode_barang'],
             columns: [
                 [{
                         field: 'kode',
@@ -312,7 +312,7 @@
             panelWidth: 500,
             mode: 'remote',
             url: 'orang/Table',
-            idField: 'id',
+            idField: 'kode',
             textField: 'nama',
             columns: [
                 [{
@@ -345,7 +345,7 @@
             panelWidth: 400,
             mode: 'remote',
             url: 'barang/Table',
-            idField: 'id',
+            idField: 'kode',
             textField: 'nama',
             columns: [
                 [{
@@ -388,7 +388,7 @@
             $('#warn').html("Daftar item mohon diisi")
         } else {
             table.forEach(function(x, i) {
-                if (x['id_barang'] == '' || x['total'] <= 0 || x['qty'] > x['stok']) {
+                if (x['kode_barang'] == '' || x['total'] <= 0 || x['qty'] > x['stok']) {
 
                 } else {
                     tru++
@@ -412,7 +412,7 @@
             data.push(id)
         }
         table.forEach(function(x, idx) {
-            data.push(nama + "/" + x['id_barang'] + "/" + x['qty'])
+            data.push(nama + "/" + x['kode_barang'] + "/" + x['qty'])
         })
         var str = data.join('; ')
         console.log(data)
@@ -433,7 +433,7 @@
             var frm = document.getElementsByName("input_form")[0]
             frm.reset()
             $('#myModalInput').modal('toggle')
-            //location.reload()
+            location.reload()
         }
 
         function Timing(t) {

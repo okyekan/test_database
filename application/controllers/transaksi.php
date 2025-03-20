@@ -36,17 +36,17 @@ class transaksi extends CI_Controller
                 $tempid = $x->kode;
                 foreach ($trans as $i)
                 {
-                    $total += ($this->barang_model->AmbilData($i->id_barang,'harga')->harga * $i->jumlah);
+                    $total += ($this->barang_model->AmbilData(['kode'=>$i->kode_barang],'harga')->harga * $i->jumlah);
                 }
             }
             $temp = array(
                 'pembelian'=> ($span),
                 'kode_transaksi'=> $x->kode,
                 'waktu'=> $x->waktu,
-                'nama_customer'=> $this->orang_model->AmbilData($x->id_customer,'nama')->nama,
-                'nama_barang'=> $this->barang_model->AmbilData($x->id_barang,'nama')->nama,
+                'nama_customer'=> $this->orang_model->AmbilData(['kode'=>$x->kode_customer],'nama')->nama,
+                'nama_barang'=> $this->barang_model->AmbilData(['kode'=>$x->kode_barang],'nama')->nama,
                 'qty'=> $x->jumlah,
-                'harga'=> $this->barang_model->AmbilData($x->id_barang,'harga')->harga,
+                'harga'=> $this->barang_model->AmbilData(['kode'=>$x->kode_barang],'harga')->harga,
                 'total'=> $total
             );
             array_push($data['all_data'],$temp);
@@ -59,8 +59,8 @@ class transaksi extends CI_Controller
         $data['aksi'] = "Ubah";
         $data['row'] = $this->transaksi_model->AmbilData($this->input->post('id_transaksi'));
         foreach ($data['row'] as $r){
-            $r->harga = $this->barang_model->AmbilData($r->id_barang, 'harga')->harga;
-            $r->stok = $this->barang_model->AmbilData($r->id_barang, 'stok')->stok;
+            $r->harga = $this->barang_model->AmbilData(['kode'=>$r->kode_barang], 'harga')->harga;
+            $r->stok = $this->barang_model->AmbilData(['kode'=>$r->kode_barang], 'stok')->stok;
         }
         $this->load->view("pop_up_transaksi", $data);
     }
@@ -79,7 +79,7 @@ class transaksi extends CI_Controller
         $id = $this->input->post();
         $get = $this->transaksi_model->AmbilData($id['kode']);
         foreach ($get as $g){
-            $this->barang_model->Update(['id' => $g->id_barang], array('stok' => 'stok + ' . (int)$g->jumlah));
+            $this->barang_model->Update(['kode' => $g->kode_barang], array('stok' => 'stok + ' . (int)$g->jumlah));
         }
         $this->transaksi_model->delete($id);
     }
@@ -93,12 +93,12 @@ class transaksi extends CI_Controller
             $val = explode('/',$arr);
             $data = array(
                 'kode' => $id,
-                'id_customer' => $val[0],
-                'id_barang' => $val[1],
+                'kode_customer' => $val[0],
+                'kode_barang' => $val[1],
                 'jumlah' => $val[2]
             );
             $scs = $this->transaksi_model->save($data);
-            $this->barang_model->Update(['id'=>$val[1]],array('stok' => 'stok - '.(int)$val[2]));
+            $this->barang_model->Update(['kode'=>$val[1]],array('stok' => 'stok - '.(int)$val[2]));
             if ($scs){$success++;}
             $no++;
         }
@@ -125,7 +125,7 @@ class transaksi extends CI_Controller
         //update stok
         $get = $this->transaksi_model->AmbilData($id);
         foreach ($get as $g) {
-            $this->barang_model->Update(['id' => $g->id_barang], array('stok' => 'stok + ' . (int)$g->jumlah));
+            $this->barang_model->Update(['kode' => $g->kode_barang], array('stok' => 'stok + ' . (int)$g->jumlah));
         }
         //
         $this->transaksi_model->delete(['kode' => $id]);
@@ -134,15 +134,15 @@ class transaksi extends CI_Controller
             $val = explode('/', $arr);
             $data = array(
                 'kode' => $id,
-                'id_customer' => $val[0],
-                'id_barang' => $val[1],
+                'kode_customer' => $val[0],
+                'kode_barang' => $val[1],
                 'jumlah' => $val[2],
                 'waktu' => $waktu
             );
             var_dump($data);
             $scs = $this->transaksi_model->save($data);
             //update stok
-            $this->barang_model->Update(['id' => $val[1]], array('stok' => 'stok - ' . (int)$val[2]));
+            $this->barang_model->Update(['kode' => $val[1]], array('stok' => 'stok - ' . (int)$val[2]));
             //
             if ($scs) {
                 $success++;
@@ -186,7 +186,7 @@ class transaksi extends CI_Controller
                 $trans = $this->transaksi_model->AmbilData($x->kode);
                 $tempid = $x->kode;
                 foreach ($trans as $i) {
-                    $total += ($this->barang_model->AmbilData($i->id_barang, 'harga')->harga * $i->jumlah);
+                    $total += ($this->barang_model->AmbilData(['kode'=>$i->kode_barang], 'harga')->harga * $i->jumlah);
                 }
             }
             else {
@@ -195,10 +195,10 @@ class transaksi extends CI_Controller
             $data = [
                 'kode_transaksi'=> $x->kode,
                 'waktu'=> $x->waktu,
-                'customer'=> $this->orang_model->AmbilData($x->id_customer,'nama')->nama,
-                'item'=> $this->barang_model->AmbilData($x->id_barang,'nama')->nama,
+                'customer'=> $this->orang_model->AmbilData(['kode'=>$x->kode_customer],'nama')->nama,
+                'item'=> $this->barang_model->AmbilData(['kode'=>$x->kode_barang],'nama')->nama,
                 'qty'=> $x->jumlah,
-                'harga'=> $this->barang_model->AmbilData($x->id_barang,'harga')->harga,
+                'harga'=> $this->barang_model->AmbilData(['kode'=>$x->kode_barang],'harga')->harga,
                 'total'=> $total
             ];
             if ($span > $limit)
@@ -256,16 +256,16 @@ class transaksi extends CI_Controller
                 $trans = $this->transaksi_model->AmbilData($x->kode);
                 $tempid = $x->kode;
                 foreach ($trans as $i) {
-                    $total += ($this->barang_model->AmbilData($i->id_barang, 'harga')->harga * $i->jumlah);
+                    $total += ($this->barang_model->AmbilData(['kode'=>$i->kode_barang], 'harga')->harga * $i->jumlah);
                 }
             }
             $data = [
                 'kode_transaksi' => $x->kode,
                 'waktu' => $x->waktu,
-                'customer' => $this->orang_model->AmbilData($x->id_customer, 'nama')->nama,
-                'item' => $this->barang_model->AmbilData($x->id_barang, 'nama')->nama,
+                'customer' => $this->orang_model->AmbilData(['kode'=>$x->kode_customer], 'nama')->nama,
+                'item' => $this->barang_model->AmbilData(['kode'=>$x->kode_barang], 'nama')->nama,
                 'qty' => $x->jumlah,
-                'harga' => $this->barang_model->AmbilData($x->id_barang, 'harga')->harga,
+                'harga' => $this->barang_model->AmbilData(['kode'=>$x->kode_barang], 'harga')->harga,
                 'total' => $total
             ];
             $exl->setCellValue('A'.$no,($total != 0)?$num:'')
