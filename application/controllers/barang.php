@@ -35,12 +35,12 @@ class barang extends CI_Controller
     {
         $id = $this->input->post('id');
         $filter = $this->input->post('filter');
-        return $this->barang_model->AmbilData($id,$filter);
+        return $this->barang_model->AmbilData(['id'=>$id],$filter);
     }
     public function Ubah_Data()
     {
         $data['aksi'] = "Ubah";
-        $data['row'] = $this->barang_model->AmbilData($this->input->post('id'));
+        $data['row'] = $this->barang_model->AmbilData(['id'=>$this->input->post('id')]);
         $this->load->view("pop_up_barang", $data);
     }
     public function Tambah_Data()
@@ -51,8 +51,8 @@ class barang extends CI_Controller
     public function Hapus()
     {
         $id = $this->input->post();
-        $id2 = $this->input->post('id_item');
-        $oldData = (array) $this->barang_model->AmbilData($id2);
+        $id2 = $this->input->post('id');
+        $oldData = (array) $this->barang_model->AmbilData(['id'=>$id2], 'kode, nama, harga, stok');
         $success = $this->barang_model->delete($id);
 
         if ($success) {
@@ -69,8 +69,9 @@ class barang extends CI_Controller
     public function Edit_Data()
     {
         $id = $this->input->post('id_item');
-        $oldData = (array) $this->barang_model->AmbilData($id);
+        $oldData = (array) $this->barang_model->AmbilData(['id'=>$id], 'kode, nama, harga, stok');
         $inputdata = array(
+            "kode" => $oldData['kode'],
             "nama" => $this->input->post('nama_barang'),
             "harga" => $this->input->post('harga'),
             "stok" => $this->input->post('stok')

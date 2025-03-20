@@ -29,13 +29,12 @@ class orang extends CI_Controller
     }
     public function Table()
     {
-        header('Content-type: application/json');
-        echo json_encode($this->orang_model->TampilData(1000, 0));
+        echo json_encode($this->orang_model->UnionSearch($this->input->post('q')));
     }
     public function Ubah_Data()
     {
         $data['aksi'] = "Ubah";
-        $data['row'] = $this->orang_model->AmbilData($this->input->post('id'));
+        $data['row'] = $this->orang_model->AmbilData(['id'=>$this->input->post('id')]);
         $this->load->view("pop_up_orang", $data);
     }
     public function Tambah_Data()
@@ -47,7 +46,7 @@ class orang extends CI_Controller
     {
         $id = $this->input->post();
         $id2 = $this->input->post('id');
-        $oldData = (array) $this->orang_model->AmbilData($id2);
+        $oldData = (array) $this->orang_model->AmbilData(['id'=>$id2],'kode, nama, umur, jenis_kelamin, alamat');
         $success = $this->orang_model->delete($id);
 
         if ($success) {
@@ -64,9 +63,9 @@ class orang extends CI_Controller
     public function Edit_Data()
     {
         $id = $this->input->post('id');
-        $oldData = (array) $this->orang_model->AmbilData($id);
+        $oldData = (array) $this->orang_model->AmbilData(['id'=>$id], 'kode, nama, umur, jenis_kelamin, alamat');
         $inputdata = array(
-            "id" => $id,
+            "kode" => $oldData['kode'],
             "nama" => $this->input->post('nama'),
             "umur" => $this->input->post('umur'),
             "jenis_kelamin" => $this->input->post('jenis_kelamin'),

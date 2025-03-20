@@ -315,22 +315,27 @@
             idField: 'kode',
             textField: 'nama',
             columns: [
-                [{
+                [
+                    {
+                        field:'kode',
+                        title:'Kode'
+                    },
+                    {
                         field: 'nama',
-                        title: 'Nama',
+                        title: 'Nama'
                     },
                     {
                         field: 'umur',
                         title: 'Umur',
-                        align: 'right',
+                        align: 'right'
                     },
                     {
                         field: 'jenis_kelamin',
-                        title: 'Jenis Kelamin',
+                        title: 'Jenis Kelamin'
                     },
                     {
                         field: 'alamat',
-                        title: 'Alamat',
+                        title: 'Alamat'
                     }
                 ]
             ],

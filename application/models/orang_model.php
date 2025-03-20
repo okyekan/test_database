@@ -51,6 +51,21 @@ class orang_model extends CI_Model
         }
         return $this->db->order_by("id", "desc")->limit($limit,$offset)->get('orang')->result();
     }
+    public function UnionSearch($kw)
+    {
+        $this->db->like('kode', $kw)->get('orang');
+        $q1 = $this->db->last_query();
+        $this->db->like('nama', $kw)->get('orang');
+        $q2 = $this->db->last_query();
+        $this->db->where('umur', $kw)->get('orang');
+        $q3 = $this->db->last_query();
+        $this->db->where('jenis_kelamin', $kw)->get('orang');
+        $q4 = $this->db->last_query();
+        $this->db->like('alamat', $kw)->get('orang');
+        $q5 = $this->db->last_query();
+        $query = $this->db->query($q1 . " UNION " . $q2 . " UNION " . $q3 . " UNION " . $q4 . " UNION " . $q5 . " ORDER BY id DESC");
+        return $query->result();
+    }
     public function delete($id)
     {
         return $this->db->delete('orang',$id);
